@@ -53,10 +53,21 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *Text;
 
+//接受数据的属性;
+@property(nonatomic, strong)NSMutableData * dataArray;
 
 @end
 
 @implementation ViewController
+
+#pragma mark - 懒加载属性
+-(NSMutableData *)dataArray{
+    if(!_dataArray){
+        
+        _dataArray = [NSMutableData data];
+    }
+    return _dataArray;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -69,7 +80,7 @@
     
     //1.2 发送连接的clientSocket
     NSError * error = nil;
-    [clientSocket connectToHost:@"192.168.1.57" onPort:8080 error:&error];
+    [clientSocket connectToHost:@"192.168.1.61" onPort:8080 error:&error];
     
     if(!error){
         
@@ -84,13 +95,17 @@
     
 }
 
-
+#pragma mark - socket的代理的方法:
 //连接成功服务器的判断是:都是通过我们的socket的 代理方法来实现的
 -(void)socket:(GCDAsyncSocket *)clientsock didConnectToHost:(NSString *)host port:(uint16_t)port{
     
     NSLog(@"与服务器连接成功!");
     //监听读取数据
-    [clientsock readDataWithTimeout:-1 tag:0];
+    //注意的是:这里实现的是,每次的从buffer中来进行的取值1000个数来进行的处理
+    //有可能的是这个方法没有自己来做缓存的buffer 会有数据的丢失的情况!
+    #warning (添加警告的内容) 可能会有数据的不连续的情况!
+    [clientsock readDataToLength:1000 withTimeout:-1 tag:0];
+    
 }
 
 //Disconnect 断开连接
@@ -106,27 +121,53 @@
 
 //通过socket来接收消息(read操作)
 -(void)socket:(GCDAsyncSocket *)clientsock didReadData:(NSData *)data withTag:(long)tag{
+    //这个是json的格式来进行的操作!
+    //才会通过字符串的形式来进行的转换
+    //NSString * str = [[NSString alloc]initWithData:data encoding:NSUTF16StringEncoding];
     
-    NSString * str = [[NSString alloc]initWithData:data encoding:NSUTF16StringEncoding];
+    NSUInteger partialLength = data.length;
+    NSLog(@"partialLength = %zd",partialLength);
+    if(data.length == 1000){
+        //要求的是每次只拿出一千个数来进行使用,不要进行的是:多拿的情况
+        //接受
+        [self.dataArray appendData:data];
+        NSLog(@"self.dataArray = %ld",self.dataArray.length);
+        //NSLog(@"接受来的数据 self.dataArray = %@",self.dataArray);
+        //要求的是read之后继续的,继续的监听,继续的来进行从buffer中来拼接字节和数据
+        [clientsock readDataToLength:1000 withTimeout:-1 tag:0];
+    }
     
-    NSLog(@"%@",str);
-    //要求的是read之后继续的,继续的监听
-    [clientsock readDataWithTimeout:-1 tag:0];
     
 }
 
+/**
+ *  读取本分的data的操作来进行的处理:
+ */
+//-(void)socket:(GCDAsyncSocket *)sock didReadPartialDataOfLength:(NSUInteger)partialLength tag:(long)tag{
+//    
+//    
+//    if(partialLength == 1000){
+//        
+//    
+//        
+//    }
+//    
+//    
+//}
 
--(void)socket:(GCDAsyncSocket *)sock didWritePartialDataOfLength:(NSUInteger)partialLength tag:(long)tag{//写部分
-    
-    
-}
+//这个是写的方法(部分的写操作)
+//-(void)socket:(GCDAsyncSocket *)sock didWritePartialDataOfLength:(NSUInteger)partialLength tag:(long)tag{//写部分
+//    
+//    
+//}
 
 //关闭连接会执行的方法:
--(void)socketDidCloseReadStream:(GCDAsyncSocket *)sock{
-    
-    
-}
+//-(void)socketDidCloseReadStream:(GCDAsyncSocket *)sock{
+//    
+//    
+//}
 
+#pragma mark - 关闭连接的方法
 - (IBAction)closeSocket:(id)sender {
     
     //点击断开连接了!
@@ -134,6 +175,7 @@
     
 }
 
+#pragma mark - socket发送消息到server的方法!
 - (IBAction)sendButtonClick:(id)sender {
     
     //要求的发数据到客户的另一端:
@@ -148,8 +190,6 @@
     [self.clientSocket writeData:[str dataUsingEncoding:NSUTF16StringEncoding] withTimeout:-1 tag:0];
     //发送完了之后,就清空text
     self.Text.text = nil;
-    
-    
 }
 
 @end

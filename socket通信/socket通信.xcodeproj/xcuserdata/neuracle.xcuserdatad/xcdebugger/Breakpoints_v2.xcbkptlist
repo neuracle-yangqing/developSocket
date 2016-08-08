@@ -4,35 +4,13 @@
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "socket&#x901a;&#x4fe1;/ViewController.m"
-            timestampString = "491990687.989104"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
-            landmarkName = "-socket:didConnectToHost:port:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "socket&#x901a;&#x4fe1;/Organization/CommandOrganization.m"
-            timestampString = "492082609.780856"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
-            landmarkName = "-sendHello"
-            landmarkType = "5">
+            scope = "0"
+            stopOnStyle = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
