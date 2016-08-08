@@ -16,4 +16,6 @@
 
 @property(nonatomic, assign)Byte * sendReset;
 
+@property(nonatomic,assign)Byte * sendStart;
+
 @end

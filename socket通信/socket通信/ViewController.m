@@ -78,7 +78,9 @@
     
     //发送聊天消息和接受聊天消息
     CommandOrganization * command = [CommandOrganization new];
-    NSLog(@"sendHello == %@",command.sendHello);
+    NSLog(@"sendHello == %s",command.sendHello);
+    NSLog(@"sendreset == %s",command.sendReset);
+    NSLog(@"sendStart == %s",command.sendStart);
     
 }
 

@@ -143,37 +143,81 @@
 -(Byte *)sendReset{
     //添加reset的情况!
     //最终的是完整的将我们的reset的NSdata 来实现的!
-    
-    //1.frameHeader 的包头
-    UInt16 frameToken = 0x0ff0;
-    UInt8  headerLength = 0x09;
-    UInt16 payLoadLength = 0x0000;
-    UInt8  packageType = Command;
-    
-    NSMutableData * data = [NSMutableData data];
-    [data appendBytes:&frameToken length:2];
-    [data appendBytes:&headerLength length:1];
-    [data appendBytes:&payLoadLength length:2];
-    [data appendBytes:&packageType length:Command];
-    
-    //2.frameSubHeader 的包头
-    UInt8 module = Device;
-    UInt8 commandType = Reset;
-    UInt8 commandSequence = self.Sequence;
-    [data appendBytes:&module length:1];
-    [data appendBytes:&commandType length:1];
-    [data appendBytes:&commandType length:<#(NSUInteger)#>]
-    
-    //3.frameTail
-    UInt16 crc ;
-    UInt16 frameTailToken = 0xf00f;
-    
-    
-    
+    if(!_sendHello){
+        //1.frameHeader 的包头
+        UInt16 frameToken = 0x0ff0;
+        UInt8  headerLength = 0x09;
+        UInt16 payLoadLength = 0x0000;
+        UInt8  packageType = Command;
+        
+        NSMutableData * data = [NSMutableData data];
+        [data appendBytes:&frameToken length:2];
+        [data appendBytes:&headerLength length:1];
+        [data appendBytes:&payLoadLength length:2];
+        [data appendBytes:&packageType length:Command];
+        
+        //2.frameSubHeader 的包头
+        UInt8 module = Device;
+        UInt8 commandType = Reset;
+        UInt8 commandSequence = self.Sequence;
+        [data appendBytes:&module length:1];
+        [data appendBytes:&commandType length:1];
+        [data appendBytes:&commandSequence length:1];
+        
+        //3.frameTail
+        NSLog(@"计算crc之前的data == %@",data);
+        UInt16 crc = [self crc16:data];
+        UInt16 frameTailToken = 0xf00f;
+        [data appendBytes:&crc length:2];
+        [data appendBytes:&frameTailToken length:2];
+        
+        NSLog(@"reset data的数据的 = %@",data);
+    }
     
     return _sendReset;
 }
 
+
+-(Byte *)sendStart{
+    //添加sendStart的情况!
+    //最终是完整的将我们的start的转化成 NSdata的情况!
+    if(!_sendStart){
+        NSMutableData * data = [NSMutableData data];
+        
+        //1.frameHeader 的包头
+        UInt16 frameToken = 0x0ff0;
+        UInt8  headerLength = 0x09;
+        UInt16 payloadLength = 0x0000;
+        UInt8  packageType = Command;
+        
+        [data appendBytes:&frameToken length:2];
+        [data appendBytes:&headerLength length:1];
+        [data appendBytes:&payloadLength length:2];
+        [data appendBytes:&packageType length:1];
+        
+        //2.frameSubHeader 的包头
+        UInt8 module = Device;
+        UInt8 commandType = Start;
+        UInt8 commandSequence = self.Sequence;
+        [data appendBytes:&module length:1];
+        [data appendBytes:&commandType length:1];
+        [data appendBytes:&commandSequence length:self.Sequence];
+        
+        NSLog(@"data = crc 之前的数据包的情况: %@",data);
+        
+        //3.frameTail 的包
+        //data 的传递是有问题的要求的是舍弃最前面的包头的情况;
+        UInt16 crc16  = [self crc16:data];
+        UInt16 frameTailToken = 0xf00f;
+        [data appendBytes:&crc16 length:2];
+        [data appendBytes:&frameTailToken length:2];
+        
+        NSLog(@"sendStart 的数据包的情况: %@",data);
+        
+    }
+    
+    return _sendStart;
+}
 
 //改变c 的crc 的校验的情况
 //-(UInt16)CreateCRCviaBit:(unsigned char *)noTokenData andDataLength:(int)length{
