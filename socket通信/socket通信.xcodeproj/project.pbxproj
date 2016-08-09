@@ -18,6 +18,7 @@
 		B308FE571D52E4D900844881 /* EEGPara.m in Sources */ = {isa = PBXBuildFile; fileRef = B308FE561D52E4D900844881 /* EEGPara.m */; };
 		B308FE5A1D530DE900844881 /* acpEnum.m in Sources */ = {isa = PBXBuildFile; fileRef = B308FE591D530DE900844881 /* acpEnum.m */; };
 		B308FE5E1D53218A00844881 /* CommandOrganization.m in Sources */ = {isa = PBXBuildFile; fileRef = B308FE5D1D53218A00844881 /* CommandOrganization.m */; };
+		B33D64061D59D60E003747B8 /* FrameSubHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = B33D64051D59D60E003747B8 /* FrameSubHeader.m */; };
 		B342BBFD1D587DD20069EDC0 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = B342BBFC1D587DD20069EDC0 /* GCDAsyncSocket.m */; };
 		B3F8AB121D5036AE00C48544 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F8AB111D5036AE00C48544 /* main.m */; };
 		B3F8AB151D5036AE00C48544 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F8AB141D5036AE00C48544 /* AppDelegate.m */; };
@@ -51,6 +52,8 @@
 		B308FE591D530DE900844881 /* acpEnum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = acpEnum.m; sourceTree = "<group>"; };
 		B308FE5C1D53218A00844881 /* CommandOrganization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandOrganization.h; sourceTree = "<group>"; };
 		B308FE5D1D53218A00844881 /* CommandOrganization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandOrganization.m; sourceTree = "<group>"; };
+		B33D64041D59D60E003747B8 /* FrameSubHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameSubHeader.h; sourceTree = "<group>"; };
+		B33D64051D59D60E003747B8 /* FrameSubHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameSubHeader.m; sourceTree = "<group>"; };
 		B342BBFB1D587DD20069EDC0 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = baseFrame/GCDAsyncSocket.h; sourceTree = "<group>"; };
 		B342BBFC1D587DD20069EDC0 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncSocket.m; path = baseFrame/GCDAsyncSocket.m; sourceTree = "<group>"; };
 		B3F8AB0D1D5036AE00C48544 /* socket通信.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "socket通信.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,6 +88,8 @@
 				B308FE371D51F6F900844881 /* baseFrame.m */,
 				B308FE381D51F6F900844881 /* FrameHeader.h */,
 				B308FE391D51F6F900844881 /* FrameHeader.m */,
+				B33D64041D59D60E003747B8 /* FrameSubHeader.h */,
+				B33D64051D59D60E003747B8 /* FrameSubHeader.m */,
 				B308FE3A1D51F6F900844881 /* FrameTail.h */,
 				B308FE3B1D51F6F900844881 /* FrameTail.m */,
 			);
@@ -247,6 +252,7 @@
 				B342BBFD1D587DD20069EDC0 /* GCDAsyncSocket.m in Sources */,
 				B308FE541D52E3BF00844881 /* MESPara.m in Sources */,
 				B308FE511D52E2E300844881 /* ParaFormat.m in Sources */,
+				B33D64061D59D60E003747B8 /* FrameSubHeader.m in Sources */,
 				B3F8AB151D5036AE00C48544 /* AppDelegate.m in Sources */,
 				B308FE3D1D51F6F900844881 /* FrameHeader.m in Sources */,
 				B308FE4E1D52E1BE00844881 /* CommandSubHeader.m in Sources */,

@@ -124,6 +124,7 @@
          if(i == 0 || i == 1){
          break;
          }
+         
          UInt8 tempByte = testbyte[i];
          //转成字节数组
          [self.byteArray addObject:@(tempByte)];

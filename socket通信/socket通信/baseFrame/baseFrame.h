@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "FrameHeader.h"
 #import "FrameTail.h"
+#import "FrameSubHeader.h"
 
 /*
  [FieldOffset(0)]
@@ -26,5 +27,7 @@
 @property(nonatomic, strong)FrameHeader * frameHeader;
 
 @property(nonatomic, strong)FrameTail * frameTail;
+
+@property(nonatomic, strong)FrameSubHeader * frameSubHeader;
 
 @end

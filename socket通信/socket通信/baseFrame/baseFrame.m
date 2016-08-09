@@ -28,5 +28,12 @@
     return _frameTail;
 }
 
+-(FrameSubHeader *)frameSubHeader{
+    if(!_frameSubHeader){
+        
+        _frameSubHeader = [[FrameSubHeader alloc]init];
+    }
+    return _frameSubHeader;
+}
 
 @end
