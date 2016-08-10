@@ -20,28 +20,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "socket&#x901a;&#x4fe1;/ViewController.m"
-            timestampString = "492404621.137585"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
-            landmarkName = "-socket:didReadData:withTag:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "socket&#x901a;&#x4fe1;/ViewController.m"
             timestampString = "492404625.651333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "145"
             endingLineNumber = "145"
-            landmarkName = "-socket:didReadData:withTag:"
+            landmarkName = "-socketDidDisconnect:withError:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -52,12 +36,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "socket&#x901a;&#x4fe1;/ViewController.m"
-            timestampString = "492404635.345015"
+            timestampString = "492489419.672603"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
-            landmarkName = "-socket:didReadData:withTag:"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
+            landmarkName = "-socketDidDisconnect:withError:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

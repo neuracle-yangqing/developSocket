@@ -39,14 +39,19 @@
 //  有一个 cocoAsyncSockect的框架是 专门用来 异步socket的服务器端的监听的
 
 //  下面通过什么群聊来进行的客户端的socket来进行操作和连接!
-#define MAX_PackageLength = 1024;
-#define Max_PayloadLength = 1000;
+#define MAX_PackageLength 1024
+#define Max_PayloadLength 1000
 
 #import "ViewController.h"
 #import <CFNetwork/CFNetwork.h>
 #import <CoreFoundation/CoreFoundation.h>
 #import "GCDAsyncSocket.h"
 #import "CommandOrganization.h"
+#import "acpEnum.h"
+
+#import "baseFrame.h"
+#import "AcpAlert.h"
+#import "AcpCommandResponese.h"
 
 @interface ViewController ()<GCDAsyncSocketDelegate>
 
@@ -63,11 +68,19 @@
 //定义的缓存的buffer数组
 @property(nonatomic, strong)NSMutableData * dataBufferArray;
 
+//定义记录一个解包是否为真的全局属性
+@property(nonatomic,assign)int reallyPackage;
+
 /**
  *  定义取出每包的 headerLength 和 payloadLength
  */
 @property(nonatomic,assign)UInt8 headerLength;
 @property(nonatomic,assign)UInt16 payloadLength;
+
+/**
+ *  定义的frame 整块的结构体的属性
+ */
+@property(nonatomic, strong)baseFrame * baseFrame;
 
 @end
 
@@ -97,6 +110,15 @@
         
     }
     return _dataBufferArray;
+}
+
+-(baseFrame *)baseFrame{
+    
+    if(!_baseFrame){
+        
+        _baseFrame = [baseFrame new];
+    }
+    return _baseFrame;
 }
 
 #pragma mark - 控制器的生命周期的方法
@@ -233,8 +255,18 @@
                     [self.dataTotalArray appendBytes:&tempAllByte[i +j] length:1];
                 }
                 //接下来的话:就是通过这个数据的解析来完成这个判断!
-                
-                
+                [self AnalysisWithDataPackage:self.dataTotalArray];
+                //通过解析的结果来进行的对这个i的值来处理
+                if (/* DISABLES CODE */ (1) ){
+//                    Nlog.Logger.Error(result + "    Error  Index:" + i + "    Error Package Info：" + ConvertBytestoString(TempDataArray));
+//                    if (ErrorOccured != null)
+//                    {
+//                        ErrorOccured(result, datapackage);
+//                    }
+                    i++;//Ignore The WrongPackage HeaderToken
+                }else{
+                    i = i + headerLength + _payloadLength + 4 - 1;
+                }
                 
             }else if(i + headerLength + payloadpayLength + 4 == data.length){//数据整好是一包的情况:
                 //截取整个的数据包:完成之后的话就可以返回来进行接收下一包的socket的了!
@@ -245,6 +277,9 @@
                     [self.dataTotalArray appendBytes:&tempAllByte[i +j] length:1];
                 }
                 //接下来的话:就是通过这个数据的解析来完成这个判断!
+                [self AnalysisWithDataPackage:self.dataTotalArray];
+                //通过解析的结果来进行的对这个i的值来处理
+                
                 
                 
                 break;
@@ -263,14 +298,130 @@
 }
 
 #pragma mark - 分析解包,解析数据的重要方法
--(void)AnalysisWithDataPackage:(NSData *)data{
+-(void)AnalysisWithDataPackage:(NSData *)dataTotalArray{
     //实现的要求是:要求的是来判断我的这个取出来的包是否是正确的!
-    //实现的思路是:
+    //实现的思路是:要求的是传递的是取值出来的buffer的情况!实现的是查找到tail的token来进行的校验是正确的话,就可以来给属性来赋值进行的解包!
+    //取出 dataBuffter 中的tailToken的值,来进行判断!
+    Byte * tempAllByte = (Byte *)[dataTotalArray bytes];
     
+    NSInteger length = dataTotalArray.length;
+    //取出最后的字节数组的情况
+    //这里的话:还需要的是前两个byte转化成 uint_16的情况
+    //缓存属性frameHeader
+    NSMutableData * tempData = [NSMutableData data];
+    [tempData appendBytes:&tempAllByte[0] length:1];
+    [tempData appendBytes:&tempAllByte[1] length:1];
     
+    self.baseFrame.frameHeader.Token = (UInt16)tempData;
+    tempData = nil;
     
+    self.baseFrame.frameHeader.HeaderLength = tempAllByte[2];
     
+    [tempData appendBytes:&tempAllByte[3] length:1];
+    [tempData appendBytes:&tempAllByte[4] length:1];
     
+    self.baseFrame.frameHeader.PayloadLength = (UInt16)tempData;
+    tempData = nil;
+    
+    self.baseFrame.frameHeader.PackageType = tempAllByte[5];
+    
+    //缓存frameTail
+    [tempData appendBytes:&tempAllByte[length - 4] length:1];
+    [tempData appendBytes:&tempAllByte[length - 3] length:1];
+    self.baseFrame.frameTail.CRC  = (UInt16)tempData;
+    tempData = nil;
+    
+    [tempData appendBytes:&tempAllByte[length - 2] length:1];
+    [tempData appendBytes:&tempAllByte[length - 1] length:1];
+    self.baseFrame.frameTail.TailToken = (UInt16)tempData;
+    tempData = nil;
+    
+    //解包的逻辑处理和判断
+    if ((int)self.baseFrame.frameHeader.PayloadLength > Max_PayloadLength)
+    {
+        self.reallyPackage = 0;//这个包是为 假的;得到的为假的话..这样就去掉那个包头,i这里有一个重新设置包头的情况!
+        return;
+        
+    }else if((self.baseFrame.frameHeader.Token == 0x0FF0 && self.baseFrame.frameTail.TailToken != 0xF00F) || (self.baseFrame.frameHeader.Token == 0x0550 && self.baseFrame.frameTail.TailToken != 0x5005)){
+        
+        self.reallyPackage = 0;//这个包是为 假的;得到的为假的话..这样就去掉那个包头,i这里有一个重新设置包头的情况!
+        return;
+        
+    }else{
+        //这个硬包是正确的!来进行的取出那个 packageType的属性
+        //通过的是,检测的是那个PackageType.CommandResponse  和那个 PackageType.Alert的两个的分支的类型:
+        UInt8 PackageType = self.baseFrame.frameHeader.PackageType;
+        switch (PackageType) {
+            case CommandResponse:{
+                AcpCommandResponese * Responese = [AcpCommandResponese new];
+                Responese.frameHeader = self.baseFrame.frameHeader;
+                Responese.frameTail = self.baseFrame.frameTail;
+            
+                Responese.FrameSubHeader.ModuleType = tempAllByte[6];
+                Responese.FrameSubHeader.CommandType = tempAllByte[7];
+                Responese.FrameSubHeader.PacketID = tempAllByte[8];
+                Responese.FrameSubHeader.CommandSequence = tempAllByte[9];
+                Responese.FrameSubHeader.Result = tempAllByte[10];
+                Responese.FrameSubHeader.ErrorCode = tempAllByte[11];
+                
+                [tempData appendBytes:&tempAllByte[12] length:1];
+                [tempData appendBytes:&tempAllByte[13] length:1];
+                [tempData appendBytes:&tempAllByte[14] length:1];
+                [tempData appendBytes:&tempAllByte[15] length:1];
+                Responese.FrameSubHeader.TimeStamp = (int)tempData;
+                tempData = nil;
+                
+                [tempData appendBytes:&tempAllByte[16] length:1];
+                [tempData appendBytes:&tempAllByte[17] length:1];
+                [tempData appendBytes:&tempAllByte[18] length:1];
+                [tempData appendBytes:&tempAllByte[19] length:1];
+                Responese.FrameSubHeader.TimeStampFromPowerOn = (int)tempData;
+                tempData = nil;
+                //传递那个 paraArray的值!
+                //从这个headerLength是包的索引..这个payloadLength是这个包的长度!
+                for(int i = (int)self.baseFrame.frameHeader.HeaderLength; i < (int)self.baseFrame.frameHeader.PayloadLength;i++ ){
+                    [Responese.ResponseData.ParaArray appendBytes:&tempAllByte[i] length:1];
+                }
+                
+                break;
+            }
+            case Alert:{
+                AcpAlert * alert = [AcpAlert new];
+                alert.frameHeader = self.baseFrame.frameHeader;
+                alert.frameTail = self.baseFrame.frameTail;
+                
+                alert.alertSubHeader.ModuleType = tempAllByte[6];
+                alert.alertSubHeader.AlertType = tempAllByte[7];
+                alert.alertSubHeader.PacketID = tempAllByte[8];
+                
+                [tempData appendBytes:&tempAllByte[9] length:1];
+                [tempData appendBytes:&tempAllByte[10] length:1];
+                [tempData appendBytes:&tempAllByte[11] length:1];
+                [tempData appendBytes:&tempAllByte[12] length:1];
+                alert.alertSubHeader.TimeStamp = (int)tempData;
+                tempData = nil;
+                
+                [tempData appendBytes:&tempAllByte[13] length:1];
+                [tempData appendBytes:&tempAllByte[14] length:1];
+                [tempData appendBytes:&tempAllByte[15] length:1];
+                [tempData appendBytes:&tempAllByte[16] length:1];
+                alert.alertSubHeader.TimeStampFromPowerOn = (int)tempData;
+                tempData = nil;
+                
+                //传递那个 paraArray的值!
+                //从这个headerLength是包的索引..这个payloadLength是这个包的长度!
+                for(int i = (int)self.baseFrame.frameHeader.HeaderLength; i < (int)self.baseFrame.frameHeader.PayloadLength;i++ ){
+                    
+                    [alert.alertData.DataArray appendBytes:&tempAllByte[i] length:1];
+                }
+                break;
+            }
+            default:
+                break;
+        }
+        //最后的是要求返回一个 succes的成功的消息来提过个
+        self.reallyPackage = 1;
+    }
 }
 
 #pragma mark - 关闭连接的方法
