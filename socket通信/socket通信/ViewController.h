@@ -10,6 +10,17 @@
 
 @interface ViewController : UIViewController
 
+/**
+ *  外部调用解包的方法!
+ */
+-(void)AnalysisWithDataPackage:(NSData *)dataTotalArray;
+
+/**
+ *  test 的相应的属性
+ */
+@property(nonatomic, assign)UInt16 headerToken;
+
+@property(nonatomic, assign)UInt16 tailToken;
 
 @end
 

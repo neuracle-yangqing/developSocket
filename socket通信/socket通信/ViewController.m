@@ -341,16 +341,18 @@
     //这里的话:还需要的是前两个byte转化成 uint_16的情况
     //缓存属性frameHeader
     NSMutableData * tempData = [NSMutableData data];
-    [tempData appendBytes:&tempAllByte[0] length:1];
-    [tempData appendBytes:&tempAllByte[1] length:1];
+    [tempData appendBytes:&tempAllByte[0] length:2];
+    //[tempData appendBytes:&tempAllByte[1] length:1];
     
     self.baseFrame.frameHeader.Token = (UInt16)tempData;
+    self.headerToken = self.baseFrame.frameHeader.Token;
+    
     tempData = nil;
     
     self.baseFrame.frameHeader.HeaderLength = tempAllByte[2];
     
-    [tempData appendBytes:&tempAllByte[3] length:1];
-    [tempData appendBytes:&tempAllByte[4] length:1];
+    [tempData appendBytes:&tempAllByte[3] length:2];
+    //[tempData appendBytes:&tempAllByte[4] length:1];
     
     self.baseFrame.frameHeader.PayloadLength = (UInt16)tempData;
     tempData = nil;
@@ -358,14 +360,16 @@
     self.baseFrame.frameHeader.PackageType = tempAllByte[5];
     
     //缓存frameTail
-    [tempData appendBytes:&tempAllByte[length - 4] length:1];
-    [tempData appendBytes:&tempAllByte[length - 3] length:1];
+    [tempData appendBytes:&tempAllByte[length - 4] length:2];
+    //[tempData appendBytes:&tempAllByte[length - 3] length:1];
     self.baseFrame.frameTail.CRC  = (UInt16)tempData;
     tempData = nil;
     
-    [tempData appendBytes:&tempAllByte[length - 2] length:1];
-    [tempData appendBytes:&tempAllByte[length - 1] length:1];
+    [tempData appendBytes:&tempAllByte[length - 2] length:2];
+    //[tempData appendBytes:&tempAllByte[length - 1] length:1];
     self.baseFrame.frameTail.TailToken = (UInt16)tempData;
+    self.tailToken = self.baseFrame.frameTail.TailToken;
+    
     tempData = nil;
     
     //解包的逻辑处理和判断
@@ -380,6 +384,8 @@
         return;
         
     }else{
+        
+        
         //这个硬包是正确的!来进行的取出那个 packageType的属性
         //通过的是,检测的是那个PackageType.CommandResponse  和那个 PackageType.Alert的两个的分支的类型:
         UInt8 PackageType = self.baseFrame.frameHeader.PackageType;
