@@ -112,6 +112,13 @@
     return _dataBufferArray;
 }
 
+-(NSMutableData *)dataTotalArray{
+    if (!_dataTotalArray) {
+        _dataTotalArray = [NSMutableData data];
+    }
+    return _dataTotalArray;
+}
+
 -(baseFrame *)baseFrame{
     
     if(!_baseFrame){
@@ -133,7 +140,7 @@
     
     //1.2 发送连接的clientSocket
     NSError * error = nil;
-    [clientSocket connectToHost:@"192.168.1.60" onPort:8080 error:&error];
+    [clientSocket connectToHost:@"192.168.1.65" onPort:8080 error:&error];
     
     if(!error){
         
@@ -183,10 +190,19 @@
     if(data.length == 1000){
         //要求的是每次只拿出一千个数来进行使用,不要进行的是:多拿的情况
         //接受
-        [self.dataArray appendData:data];
+        //先要求判断的buffer的缓存里面是否有数据
+        if(self.dataBufferArray.length != 0){
+            //先拼接buffer里面的数值!
+            [self.dataArray appendData:self.dataBufferArray];
+            [self.dataArray appendData:data];
+            
+        }else{
+            
+            [self.dataArray appendData:data];
+        }
         NSLog(@"self.dataArray.length = %ld",self.dataArray.length);
         //进行的是数据包的处理和解析查找:
-        
+        [self SeekDataPacket:self.dataArray];
         
         NSLog(@"接受来的数据 self.dataArray = %@",self.dataArray);
         //要求的是:总是从最开头的数据来拿
@@ -194,7 +210,7 @@
         
         [self.dataArray resetBytesInRange:range];
         
-        NSLog(@"接受来的数据 self.dataArray = %@",self.dataArray);
+        //NSLog(@"接受来的数据 self.dataArray = %@",self.dataArray);
         //要求的是read之后继续的,继续的监听,继续的来进行从buffer中来拼接字节和数据
         [clientsock readDataToLength:1000 withTimeout:-1 tag:0];
         
@@ -211,6 +227,7 @@
     //通过token来进行的seek出来的一个整包:
     //实现的思路是:通过循环遍历整个data来进行的查找包头,直接通过的字节的数值来比较,如果发现是token的相同的值,我们就要求找headerLength和payloadLength还有的是packageType!合理的组成一包来进行传递下去
     Byte * tempAllByte = (Byte *)[data bytes];
+    
     
     for (int i = 0; i < data.length; i ++) {
         //如果i超过data.length - 2 就要求添加到缓存中来进行的等待的是下一包的数据
@@ -250,49 +267,64 @@
             if(i + headerLength + payloadpayLength + 4 < data.length){//一包的数据在这次的情况:
                 //截取整个的数据包:
                 NSInteger tailLength = i + headerLength + payloadpayLength + 4;
-                for(int j = 0;j < tailLength;j ++){
-                    //循环的 buffer 的添加
-                    [self.dataTotalArray appendBytes:&tempAllByte[i +j] length:1];
-                }
+                
+//                for(int j = 0;j < tailLength;j ++){
+//                    //循环的 buffer 的添加
+//                    [self.dataTotalArray appendBytes:&tempAllByte[i +j] length:1];
+//                }
+                [self.dataTotalArray appendBytes:&tempAllByte[i] length:tailLength];
+                
                 //接下来的话:就是通过这个数据的解析来完成这个判断!
                 [self AnalysisWithDataPackage:self.dataTotalArray];
                 //通过解析的结果来进行的对这个i的值来处理
-                if (/* DISABLES CODE */ (1) ){
-//                    Nlog.Logger.Error(result + "    Error  Index:" + i + "    Error Package Info：" + ConvertBytestoString(TempDataArray));
-//                    if (ErrorOccured != null)
-//                    {
-//                        ErrorOccured(result, datapackage);
-//                    }
+                if (self.reallyPackage == 0 ){//代表的是包头的查找的错误!
+
                     i++;//Ignore The WrongPackage HeaderToken
+                    
                 }else{
-                    i = i + headerLength + _payloadLength + 4 - 1;
+                    i = i + headerLength + payloadpayLength + 4 - 1;
                 }
                 
             }else if(i + headerLength + payloadpayLength + 4 == data.length){//数据整好是一包的情况:
                 //截取整个的数据包:完成之后的话就可以返回来进行接收下一包的socket的了!
                 NSInteger tailLength = i + headerLength + payloadpayLength + 4;
                 
-                for(int j = 0;j < tailLength;j ++){
-                    //循环的 buffer 的添加
-                    [self.dataTotalArray appendBytes:&tempAllByte[i +j] length:1];
-                }
+//                for(int j = 0;j < tailLength;j ++){
+//                    //循环的 buffer 的添加
+//                    [self.dataTotalArray appendBytes:&tempAllByte[i +j] length:1];
+//                }
+                [self.dataTotalArray appendBytes:&tempAllByte[i] length:tailLength];
+                
                 //接下来的话:就是通过这个数据的解析来完成这个判断!
                 [self AnalysisWithDataPackage:self.dataTotalArray];
                 //通过解析的结果来进行的对这个i的值来处理
-                
-                
-                
+                if (self.reallyPackage == 0 ){//代表的是包头的查找的错误!
+                    
+                    i++;//Ignore The WrongPackage HeaderToken
+                }
+                //这包的数据是正确的,直接的结束返回下一包就行了!
                 break;
                 
             }else{//整体的都是不够一包的情况:全部的进行的缓存!
                 
                 NSInteger tailLength = data.length - i;
-                for(int j = 0;j < tailLength;j ++){
-                    //循环的 buffer 的添加
-                    [self.dataBufferArray appendBytes:&tempAllByte[i +j] length:1];
-                }
+//                for(int j = 0;j < tailLength;j ++){
+//                    //循环的 buffer 的添加
+//                    [self.dataBufferArray appendBytes:&tempAllByte[i +j] length:1];
+//                }
+                [self.dataBufferArray appendBytes:&tempAllByte[i] length:tailLength];
+                
                 break;
             }
+        }
+        if (self.dataBufferArray.length > MAX_PackageLength) {
+            //进行的是对buffer的整个的前移的情况;要求的是内存的空间的整体的前移:
+            Byte * tempAllByte1 = (Byte *)[self.dataBufferArray bytes];
+            NSInteger bufferLength = self.dataBufferArray.length - MAX_PackageLength;
+            //前移1M 的数据:
+            self.dataBufferArray = nil;
+            [self.dataBufferArray appendBytes:&tempAllByte1[ MAX_PackageLength] length:bufferLength];
+            //buffer 的前移补位完成!
         }
     }
 }
@@ -379,10 +411,11 @@
                 tempData = nil;
                 //传递那个 paraArray的值!
                 //从这个headerLength是包的索引..这个payloadLength是这个包的长度!
-                for(int i = (int)self.baseFrame.frameHeader.HeaderLength; i < (int)self.baseFrame.frameHeader.PayloadLength;i++ ){
-                    [Responese.ResponseData.ParaArray appendBytes:&tempAllByte[i] length:1];
-                }
-                
+                int i = (int)self.baseFrame.frameHeader.HeaderLength;
+//                for(int i = (int)self.baseFrame.frameHeader.HeaderLength; i < (int)self.baseFrame.frameHeader.PayloadLength;i++ ){
+//                    [Responese.ResponseData.ParaArray appendBytes:&tempAllByte[i] length:1];
+//                }
+                [Responese.ResponseData.ParaArray appendBytes:&tempAllByte[i] length:(int)self.baseFrame.frameHeader.PayloadLength];
                 break;
             }
             case Alert:{
@@ -410,10 +443,12 @@
                 
                 //传递那个 paraArray的值!
                 //从这个headerLength是包的索引..这个payloadLength是这个包的长度!
-                for(int i = (int)self.baseFrame.frameHeader.HeaderLength; i < (int)self.baseFrame.frameHeader.PayloadLength;i++ ){
-                    
-                    [alert.alertData.DataArray appendBytes:&tempAllByte[i] length:1];
-                }
+//                for(int i = (int)self.baseFrame.frameHeader.HeaderLength; i < (int)self.baseFrame.frameHeader.PayloadLength;i++ ){
+//                    
+//                    [alert.alertData.DataArray appendBytes:&tempAllByte[i] length:1];
+//                }
+                int i = (int)self.baseFrame.frameHeader.HeaderLength;
+                [alert.alertData.DataArray appendBytes:&tempAllByte[i] length:(int)self.baseFrame.frameHeader.PayloadLength];
                 break;
             }
             default:
