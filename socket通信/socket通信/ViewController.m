@@ -343,34 +343,40 @@
     NSMutableData * tempData = [NSMutableData data];
     [tempData appendBytes:&tempAllByte[0] length:2];
     //[tempData appendBytes:&tempAllByte[1] length:1];
-    
-    self.baseFrame.frameHeader.Token = (UInt16)tempData;
+    Byte * tempByte = (Byte *)[tempData bytes];
+    UInt16 temp = (tempByte[1]<<8) + tempByte[0];
+    self.baseFrame.frameHeader.Token = temp;
     self.headerToken = self.baseFrame.frameHeader.Token;
     
     tempData = nil;
-    
+    tempData = [NSMutableData data];
     self.baseFrame.frameHeader.HeaderLength = tempAllByte[2];
-    
     [tempData appendBytes:&tempAllByte[3] length:2];
-    //[tempData appendBytes:&tempAllByte[4] length:1];
+    Byte * tempByte0 = (Byte *)[tempData bytes];
+    temp = (tempByte0[1]<<8) + tempByte0[0];
+    self.baseFrame.frameHeader.PayloadLength = (UInt16)temp;
     
-    self.baseFrame.frameHeader.PayloadLength = (UInt16)tempData;
     tempData = nil;
-    
+    tempData = [NSMutableData data];
     self.baseFrame.frameHeader.PackageType = tempAllByte[5];
     
     //缓存frameTail
     [tempData appendBytes:&tempAllByte[length - 4] length:2];
-    //[tempData appendBytes:&tempAllByte[length - 3] length:1];
-    self.baseFrame.frameTail.CRC  = (UInt16)tempData;
-    tempData = nil;
+    Byte * tempByte1 = (Byte *)[tempData bytes];
+    temp = (tempByte1[1]<<8) + tempByte1[0];
+    self.baseFrame.frameTail.CRC  = temp;
     
+    tempData = nil;
+    tempData = [NSMutableData data];
     [tempData appendBytes:&tempAllByte[length - 2] length:2];
-    //[tempData appendBytes:&tempAllByte[length - 1] length:1];
-    self.baseFrame.frameTail.TailToken = (UInt16)tempData;
+    Byte * tempByte2 = (Byte *)[tempData bytes];
+    temp = (tempByte2[1]<<8) + tempByte2[0];
+    self.baseFrame.frameTail.TailToken = temp;
     self.tailToken = self.baseFrame.frameTail.TailToken;
     
+    //进行的手动的内存的释放!
     tempData = nil;
+    tempData = [NSMutableData data];
     
     //解包的逻辑处理和判断
     if ((int)self.baseFrame.frameHeader.PayloadLength > Max_PayloadLength)
@@ -384,7 +390,6 @@
         return;
         
     }else{
-        
         
         //这个硬包是正确的!来进行的取出那个 packageType的属性
         //通过的是,检测的是那个PackageType.CommandResponse  和那个 PackageType.Alert的两个的分支的类型:
@@ -407,14 +412,14 @@
                 [tempData appendBytes:&tempAllByte[14] length:1];
                 [tempData appendBytes:&tempAllByte[15] length:1];
                 Responese.FrameSubHeader.TimeStamp = (int)tempData;
-                tempData = nil;
+                tempData = [NSMutableData data];;
                 
                 [tempData appendBytes:&tempAllByte[16] length:1];
                 [tempData appendBytes:&tempAllByte[17] length:1];
                 [tempData appendBytes:&tempAllByte[18] length:1];
                 [tempData appendBytes:&tempAllByte[19] length:1];
                 Responese.FrameSubHeader.TimeStampFromPowerOn = (int)tempData;
-                tempData = nil;
+                tempData = [NSMutableData data];;
                 //传递那个 paraArray的值!
                 //从这个headerLength是包的索引..这个payloadLength是这个包的长度!
                 int i = (int)self.baseFrame.frameHeader.HeaderLength;
@@ -453,6 +458,7 @@
 //                    
 //                    [alert.alertData.DataArray appendBytes:&tempAllByte[i] length:1];
 //                }
+                
                 int i = (int)self.baseFrame.frameHeader.HeaderLength;
                 [alert.alertData.DataArray appendBytes:&tempAllByte[i] length:(int)self.baseFrame.frameHeader.PayloadLength];
                 break;

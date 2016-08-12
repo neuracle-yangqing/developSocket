@@ -42,6 +42,7 @@
  *  这个是测试用例的方法一:
  */
 - (void)testExample1 {
+    
     //定义的一个字节数组
     Byte test1[] = {0xF0, 0x0F, 0x14, 0x00, 0x00, 0x02, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x96, 0xb8, 0x0F, 0xF0};
     int length =  sizeof(test1);
@@ -52,13 +53,15 @@
     [self.viewController AnalysisWithDataPackage:data];
     //进行调用的外接的赋值的属性:来通过传值的属性来进行的校验!
     //最后的是:通过断言的方式来进行最后的校验!
-    XCTAssertTrue(self.viewController.tailToken == 0xF00F);
-    XCTAssertTrue(self.viewController.headerToken == 0x0FF0,@"期望值是: 0x0ff0 实际的值是: %hu",self.viewController.headerToken);
+    XCTAssertTrue(self.viewController.tailToken == 0xF00F,@"期望值是: 0xF00F 实际的值是: %hu",self.viewController.tailToken);
+    XCTAssertTrue(self.viewController.headerToken == 0x0FF0,@"期望值是: 0x0FF0 实际的值是: %hu",self.viewController.headerToken);
+    
     
 }
 
 /**
  *  这个是测试用例的方法二:
+ 实现的是测试seek的截取包的长度的正确性!
  */
 - (void)testExample2 {
     
