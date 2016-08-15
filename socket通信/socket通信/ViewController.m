@@ -228,7 +228,6 @@
     //实现的思路是:通过循环遍历整个data来进行的查找包头,直接通过的字节的数值来比较,如果发现是token的相同的值,我们就要求找headerLength和payloadLength还有的是packageType!合理的组成一包来进行传递下去
     Byte * tempAllByte = (Byte *)[data bytes];
     
-    
     for (int i = 0; i < data.length; i ++) {
         //如果i超过data.length - 2 就要求添加到缓存中来进行的等待的是下一包的数据
         if (i > data.length - 2)
@@ -238,11 +237,16 @@
             [self.dataBufferArray appendBytes:&tempAllByte[i +1] length:1];
             break;
         }
+        
         //进行的拿出每一个字节,进行的比较测试查找包头
         UInt8 tempByte = tempAllByte[i];
         UInt8 tempByte1 = tempAllByte[i + 1];
         
         if((tempByte == 0x50 && tempByte1 == 0x05) || (tempByte == 0xf0  && tempByte1 == 0x0f)){
+            
+            //要求的进行的判断的token不对的情况下的逻辑的判断:
+            
+            
             //基本上是确定的找到token
             //然后的是:通过的是后四个字节来进行的判断的是否是真正的包头的内容信息!
             if(i+4 >= data.length ){
@@ -261,6 +265,11 @@
             
             int headerLength = (int) self.headerLength;
             int payloadpayLength = (int)self.payloadLength;
+            
+            self.dataSuccess   = [NSMutableData data];
+            self.HeadUnavailable = [NSMutableData data];
+            [self.HeadUnavailable appendData:data];
+            self.testBranch = [NSMutableData data];
             
             //接下来的是从data的字节流的情况:来进行的查找整个包的内容来进行的组包!
             //判断的情况是有三种的情况:
@@ -285,6 +294,8 @@
                     i = i + headerLength + payloadpayLength + 4 - 1;
                 }
                 
+                [self.testBranch appendData: self.dataBufferArray];
+                
             }else if(i + headerLength + payloadpayLength + 4 == data.length){//数据整好是一包的情况:
                 //截取整个的数据包:完成之后的话就可以返回来进行接收下一包的socket的了!
                 NSInteger tailLength = i + headerLength + payloadpayLength + 4;
@@ -295,6 +306,8 @@
 //                }
                 [self.dataTotalArray appendBytes:&tempAllByte[i] length:tailLength];
                 
+                [self.dataSuccess appendData:data];
+                
                 //接下来的话:就是通过这个数据的解析来完成这个判断!
                 [self AnalysisWithDataPackage:self.dataTotalArray];
                 //通过解析的结果来进行的对这个i的值来处理
@@ -302,6 +315,9 @@
                     
                     i++;//Ignore The WrongPackage HeaderToken
                 }
+                
+                [self.testBranch appendData: self.dataBufferArray];
+                
                 //这包的数据是正确的,直接的结束返回下一包就行了!
                 break;
                 
@@ -314,9 +330,15 @@
 //                }
                 [self.dataBufferArray appendBytes:&tempAllByte[i] length:tailLength];
                 
+                //测试添加的那个实际的 buffer 的情况!
+                self.testBuffer = [NSMutableData data];
+                [self.testBuffer appendData:self.dataBufferArray];
+                
                 break;
             }
         }
+        
+        //如果的是token是假的话,就逻辑的是自动的过滤掉这部分的操作来进行
         if (self.dataBufferArray.length > MAX_PackageLength) {
             //进行的是对buffer的整个的前移的情况;要求的是内存的空间的整体的前移:
             Byte * tempAllByte1 = (Byte *)[self.dataBufferArray bytes];
@@ -386,10 +408,14 @@
         
     }else if((self.baseFrame.frameHeader.Token == 0x0FF0 && self.baseFrame.frameTail.TailToken != 0xF00F) || (self.baseFrame.frameHeader.Token == 0x0550 && self.baseFrame.frameTail.TailToken != 0x5005)){
         
+        //这里的有检测到 包头 和 包尾的对应的值的情况:
         self.reallyPackage = 0;//这个包是为 假的;得到的为假的话..这样就去掉那个包头,i这里有一个重新设置包头的情况!
         return;
         
     }else{
+        //token有问题的检测逻辑的正确性的
+        self.MisMacthToken = [NSMutableData data];
+        
         
         //这个硬包是正确的!来进行的取出那个 packageType的属性
         //通过的是,检测的是那个PackageType.CommandResponse  和那个 PackageType.Alert的两个的分支的类型:
@@ -444,6 +470,7 @@
                 [tempData appendBytes:&tempAllByte[12] length:1];
                 alert.alertSubHeader.TimeStamp = (int)tempData;
                 tempData = nil;
+                tempData = [NSMutableData data];
                 
                 [tempData appendBytes:&tempAllByte[13] length:1];
                 [tempData appendBytes:&tempAllByte[14] length:1];
@@ -451,6 +478,7 @@
                 [tempData appendBytes:&tempAllByte[16] length:1];
                 alert.alertSubHeader.TimeStampFromPowerOn = (int)tempData;
                 tempData = nil;
+                tempData = [NSMutableData data];
                 
                 //传递那个 paraArray的值!
                 //从这个headerLength是包的索引..这个payloadLength是这个包的长度!
@@ -469,6 +497,9 @@
         //最后的是要求返回一个 succes的成功的消息来提过个
         self.reallyPackage = 1;
     }
+    
+    
+    
 }
 
 #pragma mark - 关闭连接的方法

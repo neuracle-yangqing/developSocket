@@ -40,6 +40,7 @@
 #pragma mark - 测试用例的方法实现:
 /**
  *  这个是测试用例的方法一:
+ analysis的解包,header 和 token的检验!
  */
 - (void)testExample1 {
     
@@ -62,13 +63,148 @@
 /**
  *  这个是测试用例的方法二:
  实现的是测试seek的截取包的长度的正确性!
+ 1.实现的过程的情况是:有 完整的成功的组包Success情况
+ 2.实现的是 包头不可用的情况:HeadUnavailable
+ 3.实现的是 找不到包尾的情况:需要的是添加到缓存的情况
+ 4.实现的是 错配的token  MisMacthToken
+ 5.实现的是 错配的CRC的错包的情况 MisMacthCRC
  */
-- (void)testExample2 {
+- (void)testExample2_0 {
+    //定义一个字节数组的值
+    //测试的是:成功的数组seek方法!
+    Byte test2[] = {0x09, 0x00, 0x00, 0x01, 0x50, 0x05, 0x09, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x96, 0xb8, 0x05, 0x50 };
+    int length =  sizeof(test2);
+    NSMutableData * data = [NSMutableData data];
+    [data appendBytes:&test2 length:length];
+    Byte * test3 = (Byte *)[data bytes];
     
+    [self.viewController SeekDataPacket:data];
+    
+    //得到的结果是当前的byte数组了!
+    Byte * Verification =  (Byte *)[self.viewController.dataSuccess bytes];
+    
+    //断言的判断:
+    //注意的是:这里的都是byte *的指针的比较是不对的,要求的遍历值来进行的比较
+    for (int i = 0; i < data.length; i++) {
+        
+        XCTAssertTrue(Verification[i] == test3[i],@"期望的值是: { 0x50, 0x05, 0x09, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x96, 0xb8, 0x05, 0x50 }  实际得到的值是:%hhu",Verification[i]);
+    }
+    
+}
+
+/**
+ *  测试header的HeadUnavailable
+ */
+- (void)testExample2_1{
+    //测试的是 包头不可用的情况
+    Byte test2[] = { 0x09, 0x00, 0x00, 0x01,0x05, 0x09, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x96, 0xb8, 0x05, 0x50 };
+    int length =  sizeof(test2);
+    NSMutableData * data = [NSMutableData data];
+    [data appendBytes:&test2 length:length];
+    //Byte * test3 = (Byte *)[data bytes];
+    
+    [self.viewController SeekDataPacket:data];
+
+    //有包的情况,不为空的情况是错的!
+    XCTAssertTrue(self.viewController.HeadUnavailable == nil,@"期望的值是 : nil 实际的值是: %@",self.viewController.HeadUnavailable);
+    
+}
+
+/**
+ *  测试header的 等待的情况waiting,一共的测试的两组的数据
+ */
+- (void)testExample2_2{
+    
+    Byte test[] = { 0x50, 0x05, 0x09, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x96, 0xb8, 0x05 };
+    int length =  sizeof(test);
+    NSMutableData * data = [NSMutableData data];
+    [data appendBytes:&test length:length];
+    //测试 缓存和这个通道的添加没有数据!,实际的测试的结果是:缓存的buffer的里面的数据要求和test的来进行的对应!实际的分支里面没有数据的显示!
+    
+    [self.viewController SeekDataPacket:data];
+    
+    Byte * Verification =  (Byte *)[self.viewController.testBuffer bytes];
+    //测速缓存的两种的不同的情况
+    for (int i = 0; i < data.length; i++) {
+    
+        XCTAssertTrue(Verification[i] == test[i],@"期望的值是:{ 0x50, 0x05, 0x09, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x96, 0xb8, 0x05 }  实际得到的值为%hhu ",Verification[i]);
+    
+    }
+    
+    
+    Byte test1[] = { 0x50, 0x05, 0x09, 0x03, 0x00, 0x01, 0x01, 0x01, 0x01, 0x96, 0xb8, 0x05, 0x50 };
+    int length1 =  sizeof(test1);
+    NSMutableData * data1 = [NSMutableData data];
+    [data1 appendBytes:&test1 length:length1];
+    //测试 缓存和这个通道的添加没有数据!
+    [self.viewController SeekDataPacket:data1];
+    
+    Byte * Verification1 =  (Byte *)[self.viewController.testBuffer bytes];
+    
+    //测速缓存的两种的不同的情况
+    for (int i = 0; i < data1.length; i++) {
+        
+        XCTAssertTrue(Verification1[i + data.length ] == test1[i],@"期望的值是:{ 0x50, 0x05, 0x09, 0x03, 0x00, 0x01, 0x01, 0x01, 0x01, 0x96, 0xb8, 0x05, 0x50 }  实际得到的值为%hhu ",Verification1[i + data.length]);
+        
+    }
+    
+    //最终的test 其他的通知的情况:
+    XCTAssertTrue(self.viewController.testBranch.length == 0,@"期望得到的值是: nil 实际得到的值为 %@",self.viewController.testBranch);
+    
+}
+
+/**
+ *  测试header的 错误MisMacthToken 错误错配的token的值
+ */
+- (void)testExample2_3{
+    
+    //计算一个错误的token的情况!
+    Byte test[] = { 0x50, 0x05, 0x09, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x96, 0xb8, 0x0F, 0x50 };
+    int length =  sizeof(test);
+    NSMutableData * data = [NSMutableData data];
+    [data appendBytes:&test length:length];
+    
+    //错配的token的要求的是,舍弃那个包头的token的情况来进行的重新的来设定!
+    [self.viewController SeekDataPacket:data];
+    
+    XCTAssertTrue(self.viewController.MisMacthToken == nil,@"期望值得到的值是: nil 实际的到的值为 %@",self.viewController.MisMacthToken);
+}
+
+/**
+ *  测试header的 错误MisMacthCRC 错配的CRC的值!
+ */
+- (void)testExample2_4{
+    Byte test[] = { 0x50, 0x05, 0x09, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x95, 0xb8, 0x05, 0x50 };
+    int length =  sizeof(test);
+    NSMutableData * data = [NSMutableData data];
+    [data appendBytes:&test length:length];
+    
+    //传入的是:校验那个CRC的可选的情况!
+    //等待CRC的校验的情况:
+    [self.viewController SeekDataPacket:data];
+    //XCTAssertTrue(self.viewController)
+
+}
+
+
+/**
+ *  测试用例的 PackageType 是包的属性的情况 分为两种的情况类型 CommandResponse
+ */
+- (void)testExample3 {
+    //定义一个字节数组的值
+    //Byte test2[] =
     
 }
 
 
+/**
+ *  测试用例的 PackageType 是包的属性的情况 分为两种的情况类型 Alert
+ */
+- (void)testExample4 {
+    //定义一个字节数组的值
+    //Byte test2[] =
+    
+}
 
 - (void)testPerformanceExample {
     // This is an example of a performance test case.
