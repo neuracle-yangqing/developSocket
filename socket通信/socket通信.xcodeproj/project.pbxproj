@@ -191,12 +191,13 @@
 			path = AcpCommandResponese;
 			sourceTree = "<group>";
 		};
-		B353508B1D5C47AC007C3A28 /* socket通信Tests */ = {
+		B353508B1D5C47AC007C3A28 /* socketTests */ = {
 			isa = PBXGroup;
 			children = (
 				B353508C1D5C47AC007C3A28 /* socket__Tests.m */,
 				B353508E1D5C47AC007C3A28 /* Info.plist */,
 			);
+			name = socketTests;
 			path = "socket通信Tests";
 			sourceTree = "<group>";
 		};
@@ -205,7 +206,7 @@
 			children = (
 				B3F8AB271D5040CA00C48544 /* CFNetwork.framework */,
 				B3F8AB0F1D5036AE00C48544 /* socket通信 */,
-				B353508B1D5C47AC007C3A28 /* socket通信Tests */,
+				B353508B1D5C47AC007C3A28 /* socketTests */,
 				B3F8AB0E1D5036AE00C48544 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -553,6 +554,7 @@
 				B35350921D5C47AC007C3A28 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B3F8AB081D5036AE00C48544 /* Build configuration list for PBXProject "socket通信" */ = {
 			isa = XCConfigurationList;

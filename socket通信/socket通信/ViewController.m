@@ -436,6 +436,9 @@
                 self.ModuleType = Responese.FrameSubHeader.ModuleType;
                 
                 Responese.FrameSubHeader.PacketID = tempAllByte[8];
+                //测试选项的packetID
+                self.PacketID = Responese.FrameSubHeader.PacketID;
+                
                 Responese.FrameSubHeader.CommandSequence = tempAllByte[9];
                 Responese.FrameSubHeader.Result = tempAllByte[10];
                 Responese.FrameSubHeader.ErrorCode = tempAllByte[11];
@@ -477,9 +480,6 @@
                 alert.alertSubHeader.AlertType = tempAllByte[7];
                 alert.alertSubHeader.PacketID = tempAllByte[8];
                 
-                //测试的是alertHeader的subHeader的里面的重要的属性
-                self.alertSubHeader = alert.alertSubHeader;
-                
                 [tempData appendBytes:&tempAllByte[9] length:1];
                 [tempData appendBytes:&tempAllByte[10] length:1];
                 [tempData appendBytes:&tempAllByte[11] length:1];
@@ -502,6 +502,10 @@
 //                    
 //                    [alert.alertData.DataArray appendBytes:&tempAllByte[i] length:1];
 //                }
+                
+                //测试的是alertHeader的subHeader的里面的重要的属性
+                self.alertSubHeader = alert.alertSubHeader;
+            
                 //拿到了那个alert的data的数据流的情况!
                 int i = (int)self.baseFrame.frameHeader.HeaderLength;
                 [alert.alertData.DataArray appendBytes:&tempAllByte[i] length:(int)self.baseFrame.frameHeader.PayloadLength];

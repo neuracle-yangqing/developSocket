@@ -48,6 +48,8 @@
 
 @property(nonatomic,assign)UInt8 ModuleType;//ModuleType的所有的类型的测试的检测
 
+@property(nonatomic,assign)UInt8 PacketID;
+
 //测试aLert的各个属性的test
 @property(nonatomic,assign)UInt16 alertHeaderToken;
 
