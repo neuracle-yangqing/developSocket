@@ -35,5 +35,21 @@
 
 @property(nonatomic, strong)NSMutableData * MisMacthToken;//进行的错包的,扔掉token的设置的情况!
 
+@property(nonatomic, strong)NSMutableData * MisMacthCRC;//进行的CRC的运行的结果的测试!
+
+/**
+ *  test analysis的核心 PackageType 的解包的情况
+ */
+//测试的test 返回的是那个 commandResponse
+@property(nonatomic, assign)UInt8 PackageType;
+
+@property(nonatomic, assign)UInt8 CommandType;//CommandType的所有的了类型的测试的检测
+
+@property(nonatomic,assign)UInt8 ModuleType;//ModuleType的所有的类型的测试的检测
+
+//@property(nonatomic,assign)UInt16 Token;
+
+
+
 @end
 

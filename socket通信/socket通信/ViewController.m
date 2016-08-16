@@ -422,12 +422,19 @@
         UInt8 PackageType = self.baseFrame.frameHeader.PackageType;
         switch (PackageType) {
             case CommandResponse:{
+                self.PackageType = PackageType;
+                
                 AcpCommandResponese * Responese = [AcpCommandResponese new];
                 Responese.frameHeader = self.baseFrame.frameHeader;
                 Responese.frameTail = self.baseFrame.frameTail;
             
                 Responese.FrameSubHeader.ModuleType = tempAllByte[6];
                 Responese.FrameSubHeader.CommandType = tempAllByte[7];
+                
+                //多组的测试commandType的情况
+                self.CommandType = Responese.FrameSubHeader.CommandType;
+                self.ModuleType = Responese.FrameSubHeader.ModuleType;
+                
                 Responese.FrameSubHeader.PacketID = tempAllByte[8];
                 Responese.FrameSubHeader.CommandSequence = tempAllByte[9];
                 Responese.FrameSubHeader.Result = tempAllByte[10];
