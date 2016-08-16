@@ -463,13 +463,22 @@
                 break;
             }
             case Alert:{
+                self.PackageType = PackageType;
+                
                 AcpAlert * alert = [AcpAlert new];
                 alert.frameHeader = self.baseFrame.frameHeader;
                 alert.frameTail = self.baseFrame.frameTail;
                 
+                //测试的是alertToken的情况!
+                self.alertHeaderToken = alert.frameHeader.Token;
+                self.alertTailToken = alert.frameTail.TailToken;
+                
                 alert.alertSubHeader.ModuleType = tempAllByte[6];
                 alert.alertSubHeader.AlertType = tempAllByte[7];
                 alert.alertSubHeader.PacketID = tempAllByte[8];
+                
+                //测试的是alertHeader的subHeader的里面的重要的属性
+                self.alertSubHeader = alert.alertSubHeader;
                 
                 [tempData appendBytes:&tempAllByte[9] length:1];
                 [tempData appendBytes:&tempAllByte[10] length:1];
@@ -493,9 +502,10 @@
 //                    
 //                    [alert.alertData.DataArray appendBytes:&tempAllByte[i] length:1];
 //                }
-                
+                //拿到了那个alert的data的数据流的情况!
                 int i = (int)self.baseFrame.frameHeader.HeaderLength;
                 [alert.alertData.DataArray appendBytes:&tempAllByte[i] length:(int)self.baseFrame.frameHeader.PayloadLength];
+                
                 break;
             }
             default:
@@ -504,9 +514,6 @@
         //最后的是要求返回一个 succes的成功的消息来提过个
         self.reallyPackage = 1;
     }
-    
-    
-    
 }
 
 #pragma mark - 关闭连接的方法

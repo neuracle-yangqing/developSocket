@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AlertSubHeader.h"
 
 @interface ViewController : UIViewController
 
@@ -47,9 +48,12 @@
 
 @property(nonatomic,assign)UInt8 ModuleType;//ModuleType的所有的类型的测试的检测
 
-//@property(nonatomic,assign)UInt16 Token;
+//测试aLert的各个属性的test
+@property(nonatomic,assign)UInt16 alertHeaderToken;
 
+@property(nonatomic,assign)UInt16 alertTailToken;
 
+@property(nonatomic, strong)AlertSubHeader * alertSubHeader;
 
 @end
 
