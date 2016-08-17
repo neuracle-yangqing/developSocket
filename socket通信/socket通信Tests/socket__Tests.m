@@ -40,7 +40,7 @@
 
 
 
-#pragma mark - 测试用例的方法实现:
+#pragma mark - 测试用例的整个包以及传递逻辑的实现:
 /**
  *  这个是测试用例的方法一:
  analysis的解包,header 和 token的检验!
@@ -147,7 +147,6 @@
         XCTAssertTrue(Verification1[i + data.length ] == test1[i],@"期望的值是:{ 0x50, 0x05, 0x09, 0x03, 0x00, 0x01, 0x01, 0x01, 0x01, 0x96, 0xb8, 0x05, 0x50 }  实际得到的值为%hhu ",Verification1[i + data.length]);
         
     }
-    
     //最终的test 其他的通知的情况:
     XCTAssertTrue(self.viewController.testBranch.length == 0,@"期望得到的值是: nil 实际得到的值为 %@",self.viewController.testBranch);
 }
@@ -185,7 +184,7 @@
 
 }
 
-
+#pragma mark - 测试commandResponse中的所有的参数
 /**
  *  测试用例的 PackageType 是包的属性的情况 分为两种的情况类型 CommandResponse
  要求实现的是:里面的所有的response的属性都要求正确的检测和确定的传值的成功!
@@ -317,18 +316,95 @@
  *  test 完善继续测试commandResponse_packetID
  */
 - (void)testCommandResponse_PacketID{
-    Byte test1[] = { 0xF0, 0x0F, 0x11, 0x00, 0x00, 0x03, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x96, 0xb8, 0x0F, 0xF0 };
+    //注意的bug的点是,要求传入的是一个正确的完整的组包的情况!
+    Byte test1[] = { 0xF0, 0x0F, 0x14, 0x00, 0x00, 0x02, 0x01, 0x01, 0x09, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x96, 0xb8, 0x0F, 0xF0 };
     int length = sizeof(test1);
     NSMutableData * data = [NSMutableData dataWithBytes:&test1 length:length];
     
     [self.viewController AnalysisWithDataPackage:data];
-    #warning (添加警告的内容) 出现有错误的问题所在,这里得到的索引出现了不同的情况!
-    UInt8 PackeageID = test1[9];
-    
+    UInt8 PackeageID = test1[8];
     XCTAssertTrue(self.viewController.PacketID == PackeageID,@"期望的值是: packeaID 实际得到的值为 %hhu",self.viewController.PacketID );
     
 }
 
+/**
+ *  test CommandResponse_commandSequence
+ */
+- (void)testCommandResponse_commandSequence{
+    //定义一个包全的字节数组
+    Byte test1[] = { 0xF0, 0x0F, 0x14, 0x00, 0x00, 0x02, 0x01, 0x01, 0x08, 0x07, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x96, 0xb8, 0x0F, 0xF0 };
+    int length = sizeof(test1);
+    NSMutableData * data = [NSMutableData dataWithBytes:&test1 length:length];
+    
+    [self.viewController AnalysisWithDataPackage:data];
+    
+    UInt8 commandSequence = test1[9];
+    XCTAssertTrue(self.viewController.CommandSequence == commandSequence,@"期望的值是: commandSequence 实际得到的值为 %hhu",self.viewController.CommandSequence);
+    
+}
+
+/**
+ *  test commandResponse_Result
+ */
+- (void)testCommandResponse_Result{
+    //定义的一个正确的字节数组
+    Byte test1[] = { 0xF0, 0x0F, 0x14, 0x00, 0x00, 0x02, 0x01, 0x01, 0x08, 0x07, 0x0d, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x96, 0xb8, 0x0F, 0xF0 };
+    int length = sizeof(test1);
+    NSMutableData * data = [NSMutableData dataWithBytes:&test1 length:length];
+    
+    [self.viewController AnalysisWithDataPackage:data];
+    
+    UInt8 Result = test1[10];
+    XCTAssertTrue(self.viewController.Result == Result,@"期望的值是: Result 实际得到的值为 %hhu",self.viewController.Result);
+    
+}
+
+/**
+ *  test commandResponse_ErrorCode
+ */
+- (void)testCommandResponse_ErrorCode{
+    //要求的是定义一个正确的字节数组
+    Byte test1[] = { 0xF0, 0x0F, 0x14, 0x00, 0x00, 0x02, 0x01, 0x01, 0x08, 0x07, 0x04, 0x0e, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x96, 0xb8, 0x0F, 0xF0 };
+    int length = sizeof(test1);
+    NSMutableData * data = [NSMutableData dataWithBytes:&test1 length:length];
+    
+    [self.viewController AnalysisWithDataPackage:data];
+    
+    UInt8 errorCode = test1[11];
+    XCTAssertTrue(self.viewController.ErrorCode == errorCode,@"期望的值是: errorCode 实际得到的值为 %hhu",self.viewController.ErrorCode);
+    
+}
+
+/**
+ *  test twoTimeStamp 的形式
+ */
+- (void)testCommandResponse_TwoTimeStamp{
+    
+    //要求定义的一个正确的字节数组
+    Byte test1[] = { 0xF0, 0x0F, 0x14, 0x00, 0x00, 0x02, 0x01, 0x01, 0x09, 0x01, 0x01, 0x01, 0x09, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x96, 0xb8, 0x0F, 0xF0 };
+    int length = sizeof(test1);
+    NSMutableData * data = [NSMutableData dataWithBytes:&test1 length:length];
+    
+    [self.viewController AnalysisWithDataPackage:data];
+    
+    //NSString * str = [[NSString alloc]initWithBytes:&test1[12] length:4 encoding:NSUTF8StringEncoding];
+    Byte * test = (Byte *)[data bytes];
+    //这里的字符串的拼接的为空的情况
+    //通过字节来进行的拼接字符的情况!小端存储,字节的高字节保存到高地址
+    int timeStampp = test[12] + (test[13]<<8) +(test[14]<<16) +(test[15]<< 24);
+    
+    //得出一个真实timeStamp
+    //int16拼接一个字段的byte的内容是要求通过位移运算来进行完成的
+    //直接的通过的是字符串来进行的转换
+    //int timeStamp = [str intValue];
+    XCTAssertTrue(self.viewController.TimeStamp == timeStampp,@"期望的值是: timeStampp 实际得到的值为 %d",self.viewController.TimeStamp);
+    int timeStamppp = test[16] + (test[17]<<8) + (test[18]<<16) +(test[19]<< 24);
+    
+    XCTAssertTrue(self.viewController.TimeStampFromPowerOn == timeStamppp,@"期望的值是: timeStamppp 实际得到的值为 %d",self.viewController.TimeStampFromPowerOn);
+    
+}
+
+#pragma mark - 测试 alert的所有的参数:
 /**
  *  测试用例的 PackageType 是包的属性的情况 分为两种的情况类型 Alert
  */
@@ -490,16 +566,18 @@
  */
 - (void)testAlert_TimeStamp {
     Byte test1[] = { 0xF0, 0x0F, 0x11, 0x00, 0x00, 0x03, 0x01, 0x01, 0x0b, 0x0b, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x96, 0xb8, 0x0F, 0xF0 };
-    int length1 = 4;
-    NSMutableData * data = [NSMutableData dataWithBytes:&test1[9] length:length1];
+    int length1 = sizeof(test1);
+    NSMutableData * data = [NSMutableData dataWithBytes:&test1 length:length1];
     //test 进入方法来得到的实际的值
     [self.viewController AnalysisWithDataPackage:data];
     
-    NSString * str = [[NSString alloc]initWithBytes:&test1[9] length:length1 encoding:NSUTF8StringEncoding];
+    //应用的string转化的情况是有问题的
+    //NSString * str = [[NSString alloc]initWithBytes:&test1[9] length:length1 encoding:NSUTF8StringEncoding];
     //得出一个真实timeStamp
     //int16拼接一个字段的byte的内容是要求通过位移运算来进行完成的
-    //直接的通过的是字符串来进行的转换
-    int timeStamp = [str intValue];
+    //直接的通过的是字节来进行的转换
+    Byte * temp = (Byte *)[data bytes];
+    int timeStamp = temp[9] + (temp[10]<<8) + (temp[11]<< 16) + (temp[12]<< 24);
     
     //最后的是来进行的判断
     XCTAssertTrue(self.viewController.alertSubHeader.TimeStamp == timeStamp,"期望的值是: %d 实际得到的值为 %d",timeStamp,self.viewController.alertSubHeader.TimeStamp);
@@ -511,14 +589,15 @@
  */
 - (void)testAlert_TimeStampFromPowerOn {
     
-    Byte test1[] = { 0xF0, 0x0F, 0x11, 0x00, 0x00, 0x03, 0x01, 0x01, 0x0b, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00, 0x96, 0xb8, 0x0F, 0xF0 };
-    int length1 = 4;
-    NSMutableData * data = [NSMutableData dataWithBytes:&test1[13] length:length1];
+    Byte test1[] = { 0xF0, 0x0F, 0x11, 0x00, 0x00, 0x03, 0x01, 0x01, 0x0b, 0x00, 0x00, 0x00, 0x08, 0x08, 0x00, 0x00, 0x01, 0x96, 0xb8, 0x0F, 0xF0 };
+    int length1 = sizeof(test1);
+    NSMutableData * data = [NSMutableData dataWithBytes:&test1 length:length1];
     //test 进入方法来得到的实际的值
     [self.viewController AnalysisWithDataPackage:data];
     
-    NSString * str = [[NSString alloc]initWithBytes:&test1[13] length:length1 encoding:NSUTF8StringEncoding];
-    int timeStamp = [str intValue];
+    //NSString * str = [[NSString alloc]initWithBytes:&test1[13] length:length1 encoding:NSUTF8StringEncoding];
+    Byte * temp = (Byte *)[data bytes];
+    int timeStamp = temp[13] + (temp[14]<<8) + (temp[15]<< 16) + (temp[16]<< 24);
     
     //最后的是得出来的值来通过的是
     XCTAssertTrue(self.viewController.alertSubHeader.TimeStampFromPowerOn == timeStamp,"期望的值是: %d 实际得到的值为 %d",timeStamp,self.viewController.alertSubHeader.TimeStampFromPowerOn);

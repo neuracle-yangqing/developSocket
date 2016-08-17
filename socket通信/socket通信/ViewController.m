@@ -443,19 +443,34 @@
                 Responese.FrameSubHeader.Result = tempAllByte[10];
                 Responese.FrameSubHeader.ErrorCode = tempAllByte[11];
                 
+                //测试command的富余的属性
+                self.CommandSequence = Responese.FrameSubHeader.CommandSequence;
+                self.Result = Responese.FrameSubHeader.Result ;
+                self.ErrorCode = Responese.FrameSubHeader.ErrorCode;
+                
                 [tempData appendBytes:&tempAllByte[12] length:1];
                 [tempData appendBytes:&tempAllByte[13] length:1];
                 [tempData appendBytes:&tempAllByte[14] length:1];
                 [tempData appendBytes:&tempAllByte[15] length:1];
-                Responese.FrameSubHeader.TimeStamp = (int)tempData;
-                tempData = [NSMutableData data];;
+                
+                //实现的是小端传输的方式:
+                Byte * temp = (Byte *)[tempData bytes];
+                Responese.FrameSubHeader.TimeStamp = temp[0] + (temp[1]<<8) + (temp[2]<<16) + (temp[3]<< 24);
+                
+                tempData = [NSMutableData data];
+                self.TimeStamp = Responese.FrameSubHeader.TimeStamp;
                 
                 [tempData appendBytes:&tempAllByte[16] length:1];
                 [tempData appendBytes:&tempAllByte[17] length:1];
                 [tempData appendBytes:&tempAllByte[18] length:1];
                 [tempData appendBytes:&tempAllByte[19] length:1];
-                Responese.FrameSubHeader.TimeStampFromPowerOn = (int)tempData;
-                tempData = [NSMutableData data];;
+                
+                //实现的是小端传输的方式:
+                Byte * temp1 = (Byte *)[tempData bytes];
+                Responese.FrameSubHeader.TimeStampFromPowerOn = temp1[0] + (temp1[1]<<8) + (temp1[2]<<16) + (temp1[3]<< 24);
+                self.TimeStampFromPowerOn = Responese.FrameSubHeader.TimeStampFromPowerOn;
+                
+                tempData = [NSMutableData data];
                 //传递那个 paraArray的值!
                 //从这个headerLength是包的索引..这个payloadLength是这个包的长度!
                 int i = (int)self.baseFrame.frameHeader.HeaderLength;
@@ -484,7 +499,10 @@
                 [tempData appendBytes:&tempAllByte[10] length:1];
                 [tempData appendBytes:&tempAllByte[11] length:1];
                 [tempData appendBytes:&tempAllByte[12] length:1];
-                alert.alertSubHeader.TimeStamp = (int)tempData;
+                
+                Byte * temp = (Byte *)[tempData bytes];
+                alert.alertSubHeader.TimeStamp = temp[0] + (temp[1]<<8) +(temp[2]<<16) +(temp[3]<<24);
+                
                 tempData = nil;
                 tempData = [NSMutableData data];
                 
@@ -492,7 +510,9 @@
                 [tempData appendBytes:&tempAllByte[14] length:1];
                 [tempData appendBytes:&tempAllByte[15] length:1];
                 [tempData appendBytes:&tempAllByte[16] length:1];
-                alert.alertSubHeader.TimeStampFromPowerOn = (int)tempData;
+                Byte * temp1 = (Byte *)[tempData bytes];
+                alert.alertSubHeader.TimeStampFromPowerOn = temp1[0] + (temp1[1]<<8) +(temp1[2]<<16) +(temp1[3]<<24);
+                
                 tempData = nil;
                 tempData = [NSMutableData data];
                 

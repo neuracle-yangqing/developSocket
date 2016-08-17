@@ -48,14 +48,24 @@
 
 @property(nonatomic,assign)UInt8 ModuleType;//ModuleType的所有的类型的测试的检测
 
-@property(nonatomic,assign)UInt8 PacketID;
+@property(nonatomic,assign)UInt8 PacketID;//进行的packetID的测试的环节
+
+@property(nonatomic,assign)UInt8 Result;
+
+@property(nonatomic,assign)UInt8 CommandSequence;
+
+@property(nonatomic,assign)UInt8 ErrorCode;
+
+@property(nonatomic,assign)int TimeStamp;
+
+@property(nonatomic,assign)int TimeStampFromPowerOn;
 
 //测试aLert的各个属性的test
 @property(nonatomic,assign)UInt16 alertHeaderToken;
 
 @property(nonatomic,assign)UInt16 alertTailToken;
 
-@property(nonatomic, strong)AlertSubHeader * alertSubHeader;
+@property(nonatomic,strong)AlertSubHeader * alertSubHeader;
 
 @end
 
