@@ -383,10 +383,12 @@
     self.baseFrame.frameHeader.PackageType = tempAllByte[5];
     
     //缓存frameTail
+    //缓存的检验的CRC的字符数组!
     [tempData appendBytes:&tempAllByte[length - 4] length:2];
     Byte * tempByte1 = (Byte *)[tempData bytes];
     temp = (tempByte1[1]<<8) + tempByte1[0];
     self.baseFrame.frameTail.CRC  = temp;
+    self.MisMacthCRC = self.baseFrame.frameTail.CRC;
     
     tempData = nil;
     tempData = [NSMutableData data];

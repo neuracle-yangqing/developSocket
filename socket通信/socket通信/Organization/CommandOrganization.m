@@ -86,8 +86,6 @@
         NSLog(@"data==%@",data);
         //添加拼接这个FrameHeader
         //[self.data appendData:data];
-        
-        
         //FrameSubHeader 的拼包的情况!
         UInt8 Module = Device;
         UInt8 CommandType = Hello ;
@@ -110,14 +108,12 @@
         NSLog(@"crc16:data1 = %@",data1);
         //FrameTail 的拼包的情况
         //CRC
-        UInt16 CRC16 ;
+        //CRC 的传递直接的需要的是转化成为的byte数组的情况!
         Byte * byte = (Byte *)[data1 bytes];
-        //要求的是传入的是一个char 类型的字符
-        NSString * str = [[NSString alloc]initWithBytes:byte length:data1.length encoding:NSUTF8StringEncoding];
         
-        char * charr = [str UTF8String];
+        //test 测试的crc的方法
+        UInt16 CRC16 = crc16_ccitt(byte, (int)data1.length, CRC_SEED);
         
-        crc16_ccitt(charr, (int)data1.length, CRC16);
         //定义的是tailToken的传值!
         UInt16 FrameTailToken = 0x5005;
         self.tailToken = FrameTailToken;
@@ -127,13 +123,9 @@
         [self.data appendData:data];
         
         NSLog(@"最后生成的添加CRC的情况: %@",self.data);
-        
-        
         /*
-         
          NSString * string = [[NSString alloc]initWithData:data encoding:NSUTF16StringEncoding];
          NSData * data1 = [string dataUsingEncoding:NSUTF16StringEncoding];
-         
          
          Byte * testbyte = (Byte *)[data bytes];
          
@@ -151,7 +143,6 @@
          
          }
          NSLog(@"byteArray = %@",byteArray);
-         
          */
         //发送的成功之后的命令要求的是加一的情况!
         
@@ -177,10 +168,17 @@
         self.packageType  =  packageType;
         
         NSMutableData * data = [NSMutableData data];
+        //crc 的专用的数组
+        NSMutableData * data1 = [NSMutableData data];
+        
         [data appendBytes:&frameToken length:2];
         [data appendBytes:&headerLength length:1];
         [data appendBytes:&payLoadLength length:2];
-        [data appendBytes:&packageType length:Command];
+        [data appendBytes:&packageType length:1];
+        
+        [data1 appendBytes:&headerLength length:1];
+        [data1 appendBytes:&payLoadLength length:2];
+        [data1 appendBytes:&packageType length:1];
         
         //2.frameSubHeader 的包头
         UInt8 module = Device;
@@ -190,13 +188,19 @@
         [data appendBytes:&commandType length:1];
         [data appendBytes:&commandSequence length:1];
         
+        [data1 appendBytes:&module length:1];
+        [data1 appendBytes:&commandType length:1];
+        [data1 appendBytes:&commandSequence length:1];
+        
         //test 测试的情况
         self.ModuleType = module;
         self.CommandType = commandType;
         
         //3.frameTail
-        NSLog(@"计算crc之前的data == %@",data);
-        UInt16 crc = [self crc16:data];
+        NSLog(@"计算crc之前的data1 == %@",data1);
+        Byte * byte = (Byte *)[data1 bytes];
+        
+        UInt16 crc = crc16_ccitt(byte, (int)data1.length, CRC_SEED);
         UInt16 frameTailToken = 0xf00f;
         
         //test
@@ -229,12 +233,18 @@
         self.headerLength = headerLength;
         self.payLoadLength = payloadLength;
         self.packageType = packageType;
+        //应用的是:crc的拼接数组
+        NSMutableData * data1 = [NSMutableData data];
         
         [data appendBytes:&frameToken length:2];
         [data appendBytes:&headerLength length:1];
         [data appendBytes:&payloadLength length:2];
         [data appendBytes:&packageType length:1];
         
+        [data1 appendBytes:&headerLength length:1];
+        [data1 appendBytes:&payloadLength length:2];
+        [data1 appendBytes:&packageType length:1];
+
         //2.frameSubHeader 的包头
         UInt8 module = Device;
         UInt8 commandType = Start;
@@ -243,11 +253,15 @@
         [data appendBytes:&commandType length:1];
         [data appendBytes:&commandSequence length:self.Sequence];
         
-        NSLog(@"data = crc 之前的数据包的情况: %@",data);
+        [data1 appendBytes:&module length:1];
+        [data1 appendBytes:&commandType length:1];
+        [data1 appendBytes:&commandSequence length:self.Sequence];
         
+        NSLog(@"data1 = crc 之前的数据包的情况: %@",data1);
+        Byte * byte = (Byte *)[data1 bytes];
         //3.frameTail 的包
         //data 的传递是有问题的要求的是舍弃最前面的包头的情况;
-        UInt16 crc16  = [self crc16:data];
+        UInt16 crc16  = crc16_ccitt(byte, (int)data1.length, CRC_SEED);
         UInt16 frameTailToken = 0xf00f;
         
         //test tailToken
@@ -257,7 +271,7 @@
         
         [data appendBytes:&crc16 length:2];
         [data appendBytes:&frameTailToken length:2];
-        
+        //test crc的打印的校验的正确的!
         NSLog(@"sendStart 的数据包的情况: %@",data);
         
     }
@@ -387,6 +401,8 @@ unsigned short int crc16_ccitt(unsigned char* block,unsigned int  blockLength,un
         unsigned short int tmp = (crc >> 8) ^ (unsigned short int)*block++;
         crc = (crc << 8) ^ crc16_ccitt_table[tmp];
     }
+    
+    
     return crc;
     
 }

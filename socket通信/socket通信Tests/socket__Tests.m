@@ -163,6 +163,8 @@
     
     //错配的token的要求的是,舍弃那个包头的token的情况来进行的重新的来设定!
     [self.viewController SeekDataPacket:data];
+    //测试我们的token的情况!
+    
     
     XCTAssertTrue(self.viewController.MisMacthToken == nil,@"期望值得到的值是: nil 实际的到的值为 %@",self.viewController.MisMacthToken);
 }
@@ -177,10 +179,11 @@
     NSMutableData * data = [NSMutableData data];
     [data appendBytes:&test length:length];
     
+    UInt16 MisMacthCRC = test[9] + (test[10]<<8) ;
     //传入的是:校验那个CRC的可选的情况!
     //等待CRC的校验的情况:
     [self.viewController SeekDataPacket:data];
-    XCTAssertTrue(self.viewController.MisMacthCRC == nil,@"期望值得到的值是: nil 实际的到的值为 %@",self.viewController.MisMacthCRC);
+    XCTAssertTrue(self.viewController.MisMacthCRC == MisMacthCRC,@"期望值得到的值是: %hu  实际的到的值为 %hu",MisMacthCRC,self.viewController.MisMacthCRC);
 
 }
 

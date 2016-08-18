@@ -36,7 +36,7 @@
 
 @property(nonatomic, strong)NSMutableData * MisMacthToken;//进行的错包的,扔掉token的设置的情况!
 
-@property(nonatomic, strong)NSMutableData * MisMacthCRC;//进行的CRC的运行的结果的测试!
+@property(nonatomic, assign)UInt16  MisMacthCRC;//进行的CRC的运行的结果的测试!
 
 /**
  *  test analysis的核心 PackageType 的解包的情况
