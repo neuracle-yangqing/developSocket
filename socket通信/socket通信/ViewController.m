@@ -527,6 +527,7 @@
                 self.alertSubHeader = alert.alertSubHeader;
             
                 //拿到了那个alert的data的数据流的情况!
+                //拿出的是一个 24位的int类型数据流,扔到模型中来进行处理和转化!
                 int i = (int)self.baseFrame.frameHeader.HeaderLength;
                 [alert.alertData.DataArray appendBytes:&tempAllByte[i] length:(int)self.baseFrame.frameHeader.PayloadLength];
                 

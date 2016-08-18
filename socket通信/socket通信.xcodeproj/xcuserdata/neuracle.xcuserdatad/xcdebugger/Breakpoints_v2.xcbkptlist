@@ -52,7 +52,7 @@
                   moduleName = "socket&#x901a;&#x4fe1;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socket%E9%80%9A%E4%BF%A1/ViewController.m"
-                  timestampString = "493113792.418513"
+                  timestampString = "493191316.56311"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "299"
@@ -67,7 +67,7 @@
                   moduleName = "socket&#x901a;&#x4fe1;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socket%E9%80%9A%E4%BF%A1/ViewController.m"
-                  timestampString = "493113792.418706"
+                  timestampString = "493191316.563275"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "299"
@@ -123,68 +123,6 @@
             endingLineNumber = "374"
             landmarkName = "-testCommandResponse_ErrorCode"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[socket__Tests testCommandResponse_ErrorCode]"
-                  moduleName = "socket&#x901a;&#x4fe1;Tests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socket%E9%80%9A%E4%BF%A1Tests/socket__Tests.m"
-                  timestampString = "493113792.769278"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "374"
-                  endingLineNumber = "374"
-                  offsetFromSymbolStart = "198">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[socket__Tests testCommandResponse_ErrorCode]"
-                  moduleName = "socket&#x901a;&#x4fe1;Tests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socket%E9%80%9A%E4%BF%A1Tests/socket__Tests.m"
-                  timestampString = "493113792.76956"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "374"
-                  endingLineNumber = "374"
-                  offsetFromSymbolStart = "826">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[socket__Tests testCommandResponse_ErrorCode]"
-                  moduleName = "socket&#x901a;&#x4fe1;Tests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socket%E9%80%9A%E4%BF%A1Tests/socket__Tests.m"
-                  timestampString = "493113792.76993"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "374"
-                  endingLineNumber = "374"
-                  offsetFromSymbolStart = "916">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[socket__Tests testCommandResponse_ErrorCode]"
-                  moduleName = "socket&#x901a;&#x4fe1;Tests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socket%E9%80%9A%E4%BF%A1Tests/socket__Tests.m"
-                  timestampString = "493113792.770352"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "374"
-                  endingLineNumber = "374"
-                  offsetFromSymbolStart = "1038">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -209,74 +147,170 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "socket&#x901a;&#x4fe1;Tests/socket__Tests.m"
-            timestampString = "493113506.828422"
+            filePath = "socket&#x901a;&#x4fe1;/Organization/CommandOrganization.m"
+            timestampString = "493197157.411838"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "603"
-            endingLineNumber = "603"
-            landmarkName = "-testAlert_TimeStampFromPowerOn"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "-sendHello"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "socket&#x901a;&#x4fe1;/Organization/CommandOrganization.m"
+            timestampString = "493197157.411838"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "-sendHello"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "socket&#x901a;&#x4fe1;/Organization/CommandOrganization.m"
+            timestampString = "493195359.443654"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "-sendHello"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "socket&#x901a;&#x4fe1;/Organization/CommandOrganization.m"
+            timestampString = "493197157.411838"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "-sendHello"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "socket&#x901a;&#x4fe1;/Organization/CommandOrganization.m"
+            timestampString = "493197157.411838"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "-sendHello"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "socket&#x901a;&#x4fe1;/Organization/CommandOrganization.m"
+            timestampString = "493197157.411838"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
+            landmarkName = "-sendHello"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "socketCommandTests/socketCommandTests.m"
+            timestampString = "493195359.443654"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "-testCommandToken"
             landmarkType = "5">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "-[socket__Tests testAlert_TimeStampFromPowerOn]"
-                  moduleName = "socket&#x901a;&#x4fe1;Tests"
+                  symbolName = "-[socketCommandTests testExample]"
+                  moduleName = "socketCommandTests"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socket%E9%80%9A%E4%BF%A1Tests/socket__Tests.m"
-                  timestampString = "493113792.770964"
+                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socketCommandTests/socketCommandTests.m"
+                  timestampString = "493191322.679267"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "603"
-                  endingLineNumber = "603"
-                  offsetFromSymbolStart = "264">
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "132">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "-[socket__Tests testAlert_TimeStampFromPowerOn]"
-                  moduleName = "socket&#x901a;&#x4fe1;Tests"
+                  symbolName = "-[socketCommandTests testExample]"
+                  moduleName = "socketCommandTests"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socket%E9%80%9A%E4%BF%A1Tests/socket__Tests.m"
-                  timestampString = "493113792.771275"
+                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socketCommandTests/socketCommandTests.m"
+                  timestampString = "493191322.679547"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "603"
-                  endingLineNumber = "603"
-                  offsetFromSymbolStart = "1042">
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "768">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "-[socket__Tests testAlert_TimeStampFromPowerOn]"
-                  moduleName = "socket&#x901a;&#x4fe1;Tests"
+                  symbolName = "-[socketCommandTests testExample]"
+                  moduleName = "socketCommandTests"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socket%E9%80%9A%E4%BF%A1Tests/socket__Tests.m"
-                  timestampString = "493113792.771553"
+                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socketCommandTests/socketCommandTests.m"
+                  timestampString = "493191322.679805"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "603"
-                  endingLineNumber = "603"
-                  offsetFromSymbolStart = "1132">
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "1393">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "-[socket__Tests testAlert_TimeStampFromPowerOn]"
-                  moduleName = "socket&#x901a;&#x4fe1;Tests"
+                  symbolName = "-[socketCommandTests testExample]"
+                  moduleName = "socketCommandTests"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socket%E9%80%9A%E4%BF%A1Tests/socket__Tests.m"
-                  timestampString = "493113792.771918"
+                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socketCommandTests/socketCommandTests.m"
+                  timestampString = "493191322.68019"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "603"
-                  endingLineNumber = "603"
-                  offsetFromSymbolStart = "1257">
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "1515">
                </Location>
             </Locations>
          </BreakpointContent>

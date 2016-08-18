@@ -38,6 +38,16 @@
                ReferencedContainer = "container:socket&#x901a;&#x4fe1;.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B31C262A1D645E8B004DB177"
+               BuildableName = "socketCommandTests.xctest"
+               BlueprintName = "socketCommandTests"
+               ReferencedContainer = "container:socket&#x901a;&#x4fe1;.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

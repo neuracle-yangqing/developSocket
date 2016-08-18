@@ -597,7 +597,7 @@
     
     //NSString * str = [[NSString alloc]initWithBytes:&test1[13] length:length1 encoding:NSUTF8StringEncoding];
     Byte * temp = (Byte *)[data bytes];
-    int timeStamp = temp[13] + (temp[14]<<8) + (temp[15]<< 16) + (temp[16]<< 24);
+    int timeStamp = temp[13] + (temp[14]<<8) + (temp[15]<<16) + (temp[16]<<24);
     
     //最后的是得出来的值来通过的是
     XCTAssertTrue(self.viewController.alertSubHeader.TimeStampFromPowerOn == timeStamp,"期望的值是: %d 实际得到的值为 %d",timeStamp,self.viewController.alertSubHeader.TimeStampFromPowerOn);

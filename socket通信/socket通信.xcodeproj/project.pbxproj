@@ -18,6 +18,8 @@
 		B308FE571D52E4D900844881 /* EEGPara.m in Sources */ = {isa = PBXBuildFile; fileRef = B308FE561D52E4D900844881 /* EEGPara.m */; };
 		B308FE5A1D530DE900844881 /* acpEnum.m in Sources */ = {isa = PBXBuildFile; fileRef = B308FE591D530DE900844881 /* acpEnum.m */; };
 		B308FE5E1D53218A00844881 /* CommandOrganization.m in Sources */ = {isa = PBXBuildFile; fileRef = B308FE5D1D53218A00844881 /* CommandOrganization.m */; };
+		B31C262E1D645E8B004DB177 /* socketCommandTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B31C262D1D645E8B004DB177 /* socketCommandTests.m */; };
+		B31C26371D646890004DB177 /* CRC16_CCITT_H.m in Sources */ = {isa = PBXBuildFile; fileRef = B31C26361D646890004DB177 /* CRC16_CCITT_H.m */; };
 		B33D64061D59D60E003747B8 /* FrameSubHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = B33D64051D59D60E003747B8 /* FrameSubHeader.m */; };
 		B33D64101D5B06F3003747B8 /* AcpAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = B33D640F1D5B06F3003747B8 /* AcpAlert.m */; };
 		B33D64131D5B071F003747B8 /* AlertSubHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = B33D64121D5B071F003747B8 /* AlertSubHeader.m */; };
@@ -37,6 +39,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		B31C26301D645E8B004DB177 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B3F8AB051D5036AE00C48544 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B3F8AB0C1D5036AE00C48544;
+			remoteInfo = "socket通信";
+		};
 		B353508F1D5C47AC007C3A28 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B3F8AB051D5036AE00C48544 /* Project object */;
@@ -69,6 +78,11 @@
 		B308FE591D530DE900844881 /* acpEnum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = acpEnum.m; sourceTree = "<group>"; };
 		B308FE5C1D53218A00844881 /* CommandOrganization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandOrganization.h; sourceTree = "<group>"; };
 		B308FE5D1D53218A00844881 /* CommandOrganization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandOrganization.m; sourceTree = "<group>"; };
+		B31C262B1D645E8B004DB177 /* socketCommandTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = socketCommandTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B31C262D1D645E8B004DB177 /* socketCommandTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = socketCommandTests.m; sourceTree = "<group>"; };
+		B31C262F1D645E8B004DB177 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B31C26351D646890004DB177 /* CRC16_CCITT_H.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRC16_CCITT_H.h; sourceTree = "<group>"; };
+		B31C26361D646890004DB177 /* CRC16_CCITT_H.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRC16_CCITT_H.m; sourceTree = "<group>"; };
 		B33D64041D59D60E003747B8 /* FrameSubHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameSubHeader.h; sourceTree = "<group>"; };
 		B33D64051D59D60E003747B8 /* FrameSubHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameSubHeader.m; sourceTree = "<group>"; };
 		B33D640E1D5B06F3003747B8 /* AcpAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AcpAlert.h; sourceTree = "<group>"; };
@@ -102,6 +116,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B31C26281D645E8B004DB177 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B35350871D5C47AC007C3A28 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -161,8 +182,19 @@
 			children = (
 				B308FE5C1D53218A00844881 /* CommandOrganization.h */,
 				B308FE5D1D53218A00844881 /* CommandOrganization.m */,
+				B31C26351D646890004DB177 /* CRC16_CCITT_H.h */,
+				B31C26361D646890004DB177 /* CRC16_CCITT_H.m */,
 			);
 			path = Organization;
+			sourceTree = "<group>";
+		};
+		B31C262C1D645E8B004DB177 /* socketCommandTests */ = {
+			isa = PBXGroup;
+			children = (
+				B31C262D1D645E8B004DB177 /* socketCommandTests.m */,
+				B31C262F1D645E8B004DB177 /* Info.plist */,
+			);
+			path = socketCommandTests;
 			sourceTree = "<group>";
 		};
 		B33D640D1D5B06F3003747B8 /* AcpAlert */ = {
@@ -191,13 +223,13 @@
 			path = AcpCommandResponese;
 			sourceTree = "<group>";
 		};
-		B353508B1D5C47AC007C3A28 /* socketTests */ = {
+		B353508B1D5C47AC007C3A28 /* socketResponseTests */ = {
 			isa = PBXGroup;
 			children = (
 				B353508C1D5C47AC007C3A28 /* socket__Tests.m */,
 				B353508E1D5C47AC007C3A28 /* Info.plist */,
 			);
-			name = socketTests;
+			name = socketResponseTests;
 			path = "socket通信Tests";
 			sourceTree = "<group>";
 		};
@@ -206,7 +238,8 @@
 			children = (
 				B3F8AB271D5040CA00C48544 /* CFNetwork.framework */,
 				B3F8AB0F1D5036AE00C48544 /* socket通信 */,
-				B353508B1D5C47AC007C3A28 /* socketTests */,
+				B353508B1D5C47AC007C3A28 /* socketResponseTests */,
+				B31C262C1D645E8B004DB177 /* socketCommandTests */,
 				B3F8AB0E1D5036AE00C48544 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -216,6 +249,7 @@
 			children = (
 				B3F8AB0D1D5036AE00C48544 /* socket通信.app */,
 				B353508A1D5C47AC007C3A28 /* socket通信Tests.xctest */,
+				B31C262B1D645E8B004DB177 /* socketCommandTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -254,6 +288,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		B31C262A1D645E8B004DB177 /* socketCommandTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B31C26341D645E8B004DB177 /* Build configuration list for PBXNativeTarget "socketCommandTests" */;
+			buildPhases = (
+				B31C26271D645E8B004DB177 /* Sources */,
+				B31C26281D645E8B004DB177 /* Frameworks */,
+				B31C26291D645E8B004DB177 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B31C26311D645E8B004DB177 /* PBXTargetDependency */,
+			);
+			name = socketCommandTests;
+			productName = socketCommandTests;
+			productReference = B31C262B1D645E8B004DB177 /* socketCommandTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		B35350891D5C47AC007C3A28 /* socket通信Tests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B35350931D5C47AC007C3A28 /* Build configuration list for PBXNativeTarget "socket通信Tests" */;
@@ -298,6 +350,11 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = neuracle;
 				TargetAttributes = {
+					B31C262A1D645E8B004DB177 = {
+						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = Z369HYB6VP;
+						TestTargetID = B3F8AB0C1D5036AE00C48544;
+					};
 					B35350891D5C47AC007C3A28 = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = Z369HYB6VP;
@@ -324,11 +381,19 @@
 			targets = (
 				B3F8AB0C1D5036AE00C48544 /* socket通信 */,
 				B35350891D5C47AC007C3A28 /* socket通信Tests */,
+				B31C262A1D645E8B004DB177 /* socketCommandTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		B31C26291D645E8B004DB177 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B35350881D5C47AC007C3A28 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -349,6 +414,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B31C26271D645E8B004DB177 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B31C262E1D645E8B004DB177 /* socketCommandTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B35350861D5C47AC007C3A28 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -377,6 +450,7 @@
 				B33D641D1D5B149E003747B8 /* ResponseSubHeader.m in Sources */,
 				B3F8AB151D5036AE00C48544 /* AppDelegate.m in Sources */,
 				B308FE3D1D51F6F900844881 /* FrameHeader.m in Sources */,
+				B31C26371D646890004DB177 /* CRC16_CCITT_H.m in Sources */,
 				B308FE4E1D52E1BE00844881 /* CommandSubHeader.m in Sources */,
 				B3F8AB121D5036AE00C48544 /* main.m in Sources */,
 				B33D64201D5B16E4003747B8 /* ResponseData.m in Sources */,
@@ -389,6 +463,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		B31C26311D645E8B004DB177 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B3F8AB0C1D5036AE00C48544 /* socket通信 */;
+			targetProxy = B31C26301D645E8B004DB177 /* PBXContainerItemProxy */;
+		};
 		B35350901D5C47AC007C3A28 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B3F8AB0C1D5036AE00C48544 /* socket通信 */;
@@ -416,6 +495,30 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		B31C26321D645E8B004DB177 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = socketCommandTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = nc.neuracle.socketCommandTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/socket通信.app/socket通信";
+			};
+			name = Debug;
+		};
+		B31C26331D645E8B004DB177 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = socketCommandTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = nc.neuracle.socketCommandTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/socket通信.app/socket通信";
+			};
+			name = Release;
+		};
 		B35350911D5C47AC007C3A28 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -547,6 +650,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B31C26341D645E8B004DB177 /* Build configuration list for PBXNativeTarget "socketCommandTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B31C26321D645E8B004DB177 /* Debug */,
+				B31C26331D645E8B004DB177 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		B35350931D5C47AC007C3A28 /* Build configuration list for PBXNativeTarget "socket通信Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
