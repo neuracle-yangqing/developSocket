@@ -38,6 +38,8 @@
 
 @property(nonatomic, assign)UInt16  MisMacthCRC;//进行的CRC的运行的结果的测试!
 
+@property(nonatomic,assign)UInt16 checkPackageCRC;//整包数据来进行校验的CRC字节!
+
 /**
  *  test analysis的核心 PackageType 的解包的情况
  */

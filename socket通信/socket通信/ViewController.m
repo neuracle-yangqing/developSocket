@@ -52,6 +52,7 @@
 #import "baseFrame.h"
 #import "AcpAlert.h"
 #import "AcpCommandResponese.h"
+#import "CRC16_CCITT_H.h"
 
 @interface ViewController ()<GCDAsyncSocketDelegate>
 
@@ -359,10 +360,24 @@
     Byte * tempAllByte = (Byte *)[dataTotalArray bytes];
     
     NSInteger length = dataTotalArray.length;
+    //判断包的长度情况:
+    if(length < 13){
+        //得到是一个假包!
+        self.reallyPackage = 0;//这个包是为 假的;得到的为假的话..这样就去掉那个包头,i这里有一个重新设置包头的情况!
+        return;
+        
+    }
+    
     //取出最后的字节数组的情况
     //这里的话:还需要的是前两个byte转化成 uint_16的情况
     //缓存属性frameHeader
     NSMutableData * tempData = [NSMutableData data];
+    NSMutableData * CRCData = [NSMutableData data];
+    [CRCData appendBytes:&tempAllByte[3] length:length -4];
+    Byte * crcByte = (Byte *)[CRCData bytes];
+    CRC16_CCITT_H * crcTest = [CRC16_CCITT_H new];
+    UInt16 ReallyCRC = [crcTest testCRC:crcByte andDataLength:(int)(length -4 )];
+    
     [tempData appendBytes:&tempAllByte[0] length:2];
     //[tempData appendBytes:&tempAllByte[1] length:1];
     Byte * tempByte = (Byte *)[tempData bytes];
@@ -373,7 +388,10 @@
     tempData = nil;
     tempData = [NSMutableData data];
     self.baseFrame.frameHeader.HeaderLength = tempAllByte[2];
+//    [CRCData appendBytes:&tempAllByte[2] length:1];
+    
     [tempData appendBytes:&tempAllByte[3] length:2];
+//    [CRCData appendBytes:&tempAllByte[3] length:2];
     Byte * tempByte0 = (Byte *)[tempData bytes];
     temp = (tempByte0[1]<<8) + tempByte0[0];
     self.baseFrame.frameHeader.PayloadLength = (UInt16)temp;
@@ -381,6 +399,7 @@
     tempData = nil;
     tempData = [NSMutableData data];
     self.baseFrame.frameHeader.PackageType = tempAllByte[5];
+//    [CRCData appendBytes:&tempAllByte[5] length:1];
     
     //缓存frameTail
     //缓存的检验的CRC的字符数组!
@@ -388,7 +407,15 @@
     Byte * tempByte1 = (Byte *)[tempData bytes];
     temp = (tempByte1[1]<<8) + tempByte1[0];
     self.baseFrame.frameTail.CRC  = temp;
-    self.MisMacthCRC = self.baseFrame.frameTail.CRC;
+    self.MisMacthCRC = ReallyCRC;
+    
+    //重点的是验证一个数据包的crc的问题
+    if (ReallyCRC != self.baseFrame.frameTail.CRC) {
+        //出现错包的crc 的情况!
+        self.reallyPackage = 0;//这个包是为 假的;得到的为假的话..这样就去掉那个包头,i这里有一个重新设置包头的情况!
+        return;
+
+    }
     
     tempData = nil;
     tempData = [NSMutableData data];

@@ -19,7 +19,7 @@
 @property(nonatomic,assign)Byte * sendStart;
 
 //定义的一个全局的crc的函数
-extern unsigned short int crc16_ccitt(unsigned char  *block,unsigned int blockLength,unsigned short int crc);
+//extern unsigned short int crc16_ccitt(unsigned char  *block,unsigned int blockLength,unsigned short int crc);
 
 /**
  *  test command 的属性参数

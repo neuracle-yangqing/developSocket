@@ -183,7 +183,7 @@
     //传入的是:校验那个CRC的可选的情况!
     //等待CRC的校验的情况:
     [self.viewController SeekDataPacket:data];
-    XCTAssertTrue(self.viewController.MisMacthCRC == MisMacthCRC,@"期望值得到的值是: %hu  实际的到的值为 %hu",MisMacthCRC,self.viewController.MisMacthCRC);
+    XCTAssertTrue(self.viewController.MisMacthCRC != MisMacthCRC,@"期望值得到的值是: %hu  实际的到的值为 %hu",MisMacthCRC,self.viewController.MisMacthCRC);
 
 }
 
