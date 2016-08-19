@@ -558,7 +558,11 @@
                 //拿到了那个alert的data的数据流的情况!
                 //拿出的是一个 24位的int类型数据流,扔到模型中来进行处理和转化!
                 int i = (int)self.baseFrame.frameHeader.HeaderLength;
-                [alert.alertData.DataArray appendBytes:&tempAllByte[i] length:(int)self.baseFrame.frameHeader.PayloadLength];
+                
+                //注意的是: 这个data数组的拼接将会拼接很大!
+                alert.alertData.DataArray = [NSMutableData dataWithBytes:&tempAllByte[i] length:(int)self.baseFrame.frameHeader.PayloadLength];
+                //每次传过来的是一串的字符数组!
+                //[alert.alertData.DataArray appendBytes:&tempAllByte[i] length:(int)self.baseFrame.frameHeader.PayloadLength];
                 
                 break;
             }
@@ -591,6 +595,7 @@
     //发数据
     //只要是发数据,就是write的方法
     [self.clientSocket writeData:[str dataUsingEncoding:NSUTF16StringEncoding] withTimeout:-1 tag:0];
+    
     //发送完了之后,就清空text
     self.Text.text = nil;
 }

@@ -20,61 +20,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "socket&#x901a;&#x4fe1;/ViewController.m"
-            timestampString = "492576002.301566"
+            timestampString = "493268165.318017"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
             landmarkName = "-socketDidDisconnect:withError:"
             landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "socket&#x901a;&#x4fe1;/ViewController.m"
-            timestampString = "492599069.142837"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "299"
-            endingLineNumber = "299"
-            landmarkName = "-SeekDataPacket:"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ViewController SeekDataPacket:]"
-                  moduleName = "socket&#x901a;&#x4fe1;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socket%E9%80%9A%E4%BF%A1/ViewController.m"
-                  timestampString = "493191316.56311"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "299"
-                  endingLineNumber = "299"
-                  offsetFromSymbolStart = "1711">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ViewController SeekDataPacket:]"
-                  moduleName = "socket&#x901a;&#x4fe1;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socket%E9%80%9A%E4%BF%A1/ViewController.m"
-                  timestampString = "493191316.563275"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "299"
-                  endingLineNumber = "299"
-                  offsetFromSymbolStart = "1716">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -99,30 +51,76 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "socket&#x901a;&#x4fe1;/ViewController.m"
-            timestampString = "493091841.351317"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "347"
-            endingLineNumber = "347"
-            landmarkName = "-SeekDataPacket:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "socket&#x901a;&#x4fe1;Tests/socket__Tests.m"
-            timestampString = "493094015.905919"
+            timestampString = "493207453.367947"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "374"
-            endingLineNumber = "374"
+            startingLineNumber = "377"
+            endingLineNumber = "377"
             landmarkName = "-testCommandResponse_ErrorCode"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[socket__Tests testCommandResponse_ErrorCode]"
+                  moduleName = "socket&#x901a;&#x4fe1;Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socket%E9%80%9A%E4%BF%A1Tests/socket__Tests.m"
+                  timestampString = "493268698.691017"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "377"
+                  endingLineNumber = "377"
+                  offsetFromSymbolStart = "198">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[socket__Tests testCommandResponse_ErrorCode]"
+                  moduleName = "socket&#x901a;&#x4fe1;Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socket%E9%80%9A%E4%BF%A1Tests/socket__Tests.m"
+                  timestampString = "493268698.691303"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "377"
+                  endingLineNumber = "377"
+                  offsetFromSymbolStart = "826">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[socket__Tests testCommandResponse_ErrorCode]"
+                  moduleName = "socket&#x901a;&#x4fe1;Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socket%E9%80%9A%E4%BF%A1Tests/socket__Tests.m"
+                  timestampString = "493268698.691645"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "377"
+                  endingLineNumber = "377"
+                  offsetFromSymbolStart = "916">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[socket__Tests testCommandResponse_ErrorCode]"
+                  moduleName = "socket&#x901a;&#x4fe1;Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socket%E9%80%9A%E4%BF%A1Tests/socket__Tests.m"
+                  timestampString = "493268698.691912"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "377"
+                  endingLineNumber = "377"
+                  offsetFromSymbolStart = "1038">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -132,108 +130,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "socket&#x901a;&#x4fe1;/ViewController.m"
-            timestampString = "493110998.532999"
+            timestampString = "493268165.318017"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "470"
-            endingLineNumber = "470"
+            startingLineNumber = "499"
+            endingLineNumber = "499"
             landmarkName = "-AnalysisWithDataPackage:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "socket&#x901a;&#x4fe1;/Organization/CommandOrganization.m"
-            timestampString = "493197157.411838"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
-            landmarkName = "-sendHello"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "socket&#x901a;&#x4fe1;/Organization/CommandOrganization.m"
-            timestampString = "493197157.411838"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
-            landmarkName = "-sendHello"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "socket&#x901a;&#x4fe1;/Organization/CommandOrganization.m"
-            timestampString = "493195359.443654"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
-            landmarkName = "-sendHello"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "socket&#x901a;&#x4fe1;/Organization/CommandOrganization.m"
-            timestampString = "493197157.411838"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
-            landmarkName = "-sendHello"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "socket&#x901a;&#x4fe1;/Organization/CommandOrganization.m"
-            timestampString = "493197157.411838"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
-            landmarkName = "-sendHello"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "socket&#x901a;&#x4fe1;/Organization/CommandOrganization.m"
-            timestampString = "493197157.411838"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
-            landmarkName = "-sendHello"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -251,68 +153,102 @@
             endingLineNumber = "44"
             landmarkName = "-testCommandToken"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[socketCommandTests testExample]"
-                  moduleName = "socketCommandTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socketCommandTests/socketCommandTests.m"
-                  timestampString = "493191322.679267"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "43"
-                  endingLineNumber = "43"
-                  offsetFromSymbolStart = "132">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[socketCommandTests testExample]"
-                  moduleName = "socketCommandTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socketCommandTests/socketCommandTests.m"
-                  timestampString = "493191322.679547"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "43"
-                  endingLineNumber = "43"
-                  offsetFromSymbolStart = "768">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[socketCommandTests testExample]"
-                  moduleName = "socketCommandTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socketCommandTests/socketCommandTests.m"
-                  timestampString = "493191322.679805"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "43"
-                  endingLineNumber = "43"
-                  offsetFromSymbolStart = "1393">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[socketCommandTests testExample]"
-                  moduleName = "socketCommandTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/neuracle/Desktop/work/socket%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/socket%E9%80%9A%E4%BF%A1/socketCommandTests/socketCommandTests.m"
-                  timestampString = "493191322.68019"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "43"
-                  endingLineNumber = "43"
-                  offsetFromSymbolStart = "1515">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "socket&#x901a;&#x4fe1;/Organization/CommandOrganization.m"
+            timestampString = "493203258.62287"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
+            landmarkName = "-sendReset"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "socket&#x901a;&#x4fe1;/Organization/CommandOrganization.m"
+            timestampString = "493205341.671629"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
+            landmarkName = "-sendStart"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "socket&#x901a;&#x4fe1;/Organization/CommandOrganization.m"
+            timestampString = "493205342.731337"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
+            landmarkName = "-sendStart"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "socket&#x901a;&#x4fe1;/Organization/CommandOrganization.m"
+            timestampString = "493205364.357068"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "276"
+            endingLineNumber = "276"
+            landmarkName = "-sendStart"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "socket&#x901a;&#x4fe1;/ViewController.m"
+            timestampString = "493268165.318017"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "368"
+            endingLineNumber = "368"
+            landmarkName = "-AnalysisWithDataPackage:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "socket&#x901a;&#x4fe1;/ViewController.m"
+            timestampString = "493268409.019627"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "415"
+            endingLineNumber = "415"
+            landmarkName = "-AnalysisWithDataPackage:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B3033EBB1D66DA7A0042EF16 /* ProcessData.m in Sources */ = {isa = PBXBuildFile; fileRef = B3033EBA1D66DA7A0042EF16 /* ProcessData.m */; };
 		B308FE3C1D51F6F900844881 /* baseFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = B308FE371D51F6F900844881 /* baseFrame.m */; };
 		B308FE3D1D51F6F900844881 /* FrameHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = B308FE391D51F6F900844881 /* FrameHeader.m */; };
 		B308FE3E1D51F6F900844881 /* FrameTail.m in Sources */ = {isa = PBXBuildFile; fileRef = B308FE3B1D51F6F900844881 /* FrameTail.m */; };
@@ -56,6 +57,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B3033EB91D66DA7A0042EF16 /* ProcessData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessData.h; sourceTree = "<group>"; };
+		B3033EBA1D66DA7A0042EF16 /* ProcessData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProcessData.m; sourceTree = "<group>"; };
 		B308FE361D51F6F900844881 /* baseFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = baseFrame.h; sourceTree = "<group>"; };
 		B308FE371D51F6F900844881 /* baseFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = baseFrame.m; sourceTree = "<group>"; };
 		B308FE381D51F6F900844881 /* FrameHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameHeader.h; sourceTree = "<group>"; };
@@ -141,6 +144,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B3033EB81D66DA150042EF16 /* ProcessData */ = {
+			isa = PBXGroup;
+			children = (
+				B3033EB91D66DA7A0042EF16 /* ProcessData.h */,
+				B3033EBA1D66DA7A0042EF16 /* ProcessData.m */,
+			);
+			path = ProcessData;
+			sourceTree = "<group>";
+		};
 		B308FE351D51F6F900844881 /* baseFrame */ = {
 			isa = PBXGroup;
 			children = (
@@ -257,6 +269,7 @@
 		B3F8AB0F1D5036AE00C48544 /* socket通信 */ = {
 			isa = PBXGroup;
 			children = (
+				B3033EB81D66DA150042EF16 /* ProcessData */,
 				B33D64171D5B13F9003747B8 /* AcpCommandResponese */,
 				B33D640D1D5B06F3003747B8 /* AcpAlert */,
 				B308FE5B1D53216100844881 /* Organization */,
@@ -451,6 +464,7 @@
 				B3F8AB151D5036AE00C48544 /* AppDelegate.m in Sources */,
 				B308FE3D1D51F6F900844881 /* FrameHeader.m in Sources */,
 				B31C26371D646890004DB177 /* CRC16_CCITT_H.m in Sources */,
+				B3033EBB1D66DA7A0042EF16 /* ProcessData.m in Sources */,
 				B308FE4E1D52E1BE00844881 /* CommandSubHeader.m in Sources */,
 				B3F8AB121D5036AE00C48544 /* main.m in Sources */,
 				B33D64201D5B16E4003747B8 /* ResponseData.m in Sources */,
@@ -657,6 +671,7 @@
 				B31C26331D645E8B004DB177 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B35350931D5C47AC007C3A28 /* Build configuration list for PBXNativeTarget "socket通信Tests" */ = {
 			isa = XCConfigurationList;
