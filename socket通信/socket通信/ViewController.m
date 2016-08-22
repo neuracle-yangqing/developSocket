@@ -141,7 +141,7 @@
     
     //1.2 发送连接的clientSocket
     NSError * error = nil;
-    [clientSocket connectToHost:@"192.168.1.65" onPort:8080 error:&error];
+    [clientSocket connectToHost:@"192.168.1.60" onPort:8080 error:&error];
     
     if(!error){
         
