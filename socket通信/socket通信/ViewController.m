@@ -348,6 +348,7 @@
             self.dataBufferArray = nil;
             [self.dataBufferArray appendBytes:&tempAllByte1[ MAX_PackageLength] length:bufferLength];
             //buffer 的前移补位完成!
+            
         }
     }
 }
@@ -373,10 +374,10 @@
     //缓存属性frameHeader
     NSMutableData * tempData = [NSMutableData data];
     NSMutableData * CRCData = [NSMutableData data];
-    [CRCData appendBytes:&tempAllByte[3] length:length -4];
+    [CRCData appendBytes:&tempAllByte[2] length:(length -6)];
     Byte * crcByte = (Byte *)[CRCData bytes];
     CRC16_CCITT_H * crcTest = [CRC16_CCITT_H new];
-    UInt16 ReallyCRC = [crcTest testCRC:crcByte andDataLength:(int)(length -4 )];
+    UInt16 ReallyCRC = [crcTest testCRC:crcByte andDataLength:(int)(length -6 )];
     
     [tempData appendBytes:&tempAllByte[0] length:2];
     //[tempData appendBytes:&tempAllByte[1] length:1];
@@ -414,7 +415,6 @@
         //出现错包的crc 的情况!
         self.reallyPackage = 0;//这个包是为 假的;得到的为假的话..这样就去掉那个包头,i这里有一个重新设置包头的情况!
         return;
-
     }
     
     tempData = nil;
@@ -445,10 +445,10 @@
         //token有问题的检测逻辑的正确性的
         self.MisMacthToken = [NSMutableData data];
         
-        
         //这个硬包是正确的!来进行的取出那个 packageType的属性
         //通过的是,检测的是那个PackageType.CommandResponse  和那个 PackageType.Alert的两个的分支的类型:
         UInt8 PackageType = self.baseFrame.frameHeader.PackageType;
+        
         switch (PackageType) {
             case CommandResponse:{
                 self.PackageType = PackageType;
@@ -510,6 +510,7 @@
                 break;
             }
             case Alert:{
+                
                 self.PackageType = PackageType;
                 
                 AcpAlert * alert = [AcpAlert new];

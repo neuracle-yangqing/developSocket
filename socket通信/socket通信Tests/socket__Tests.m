@@ -183,6 +183,12 @@
     //传入的是:校验那个CRC的可选的情况!
     //等待CRC的校验的情况:
     [self.viewController SeekDataPacket:data];
+    
+    //要求的是:将我们的那个16进制的数据转化成data的数据
+    UInt16 test16 = self.viewController.MisMacthCRC;
+    NSMutableData * testData = [NSMutableData dataWithBytes:&test16 length:2];
+    NSLog(@"testdata =  %@",testData);
+    
     XCTAssertTrue(self.viewController.MisMacthCRC != MisMacthCRC,@"期望值得到的值是: %hu  实际的到的值为 %hu",MisMacthCRC,self.viewController.MisMacthCRC);
 
 }

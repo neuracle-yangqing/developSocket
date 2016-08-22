@@ -42,7 +42,7 @@
 //通道的数量(自己的手动的设置)
 -(UInt16)channelNum{
     if (!_channelNum) {
-        _channelNum = 0X20; //代表的是 32通道的数量  // 0x10 代表的是 16的通道的数量!
+        _channelNum = 0X10; //代表的是 32通道的数量  // 0x10 代表的是 16的通道的数量!
     }
     return _channelNum;
 }
