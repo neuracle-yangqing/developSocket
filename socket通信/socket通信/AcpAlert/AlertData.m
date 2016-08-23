@@ -91,7 +91,7 @@
                 
             }else{
              
-                 reallyInt = int24Array[i] + (int24Array[i + 1]<<8) +(int24Array[i +2] << 16);
+                 reallyInt = int24Array[i] + (int24Array[i + 1]<<8) +(int24Array[i +2] << 16) - (1 << 24);
             }
             //通过解析到的数据来添加数组中!
             [self.dataQueue[everyChannel] addObject:@(reallyInt)];
@@ -100,6 +100,15 @@
     
     //最后的是进行的copy 的赋值的值来进行的传递给process
     self.processClass.packeageData  = [self.dataQueue copy];
+    NSLog(@"传递过来的数据长度为: packeageData %@",self.processClass.packeageData);
+    
+    //控制器之间的顺传是不行的!属性的逆传,是不行的!
+    self.processClass.completion = ^(NSArray * dataArray){
+        
+        //DataArray = [self.dataQueue copy];
+        
+    };
+    
     [self.dataQueue removeAllObjects];
     self.dataQueue = nil;
     

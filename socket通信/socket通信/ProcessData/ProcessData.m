@@ -13,6 +13,7 @@
 */
 #import "ProcessData.h"
 
+
 @interface ProcessData ()
 
 
@@ -23,12 +24,14 @@
 
 #pragma mark - 添加懒加载int-->pointArray
 -(NSMutableArray *)packeageData{
+    
     if(!_packeageData){
         
         _packeageData = [NSMutableArray array];
     }
     return _packeageData;
 }
+
 
 //自定义的points
 -(uint8_t)points{
