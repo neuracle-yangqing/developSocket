@@ -12,6 +12,11 @@
 
 @property(nonatomic, strong)NSMutableArray * packeageData;
 
+//定义一个块代码的属性:(在被调用方来定义)(调用方来进行的执行)
+//block 是一块预先准备的代码块,在需要的时候才会来进行的执行的!
+//@property(nonatomic, copy)void * <#address#>;
+
+
 /**
  *  传递的重要的设置的参数
     这个是: EEG Parameter
