@@ -60,14 +60,14 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *Text;
 
-//接受数据的属性;
-@property(nonatomic, strong)NSMutableData * dataArray;
-
 //定义的全局的循环数组
 //@property(nonatomic, strong)NSMutableData * dataTotalArray;
 
 //定义的缓存的buffer数组
 @property(nonatomic, strong)NSMutableData * dataBufferArray;
+//定义的一个buffer缓存的index
+@property(nonatomic, assign)NSInteger bufferIndex;
+
 
 //定义记录一个解包是否为真的全局属性
 @property(nonatomic,assign)int reallyPackage;
@@ -88,13 +88,13 @@
 @implementation ViewController
 
 #pragma mark - 懒加载属性
--(NSMutableData *)dataArray{
-    if(!_dataArray){
-        
-        _dataArray = [NSMutableData data];
-    }
-    return _dataArray;
-}
+//-(NSMutableData *)dataArray{
+//    if(!_dataArray){
+//        
+//        _dataArray = [NSMutableData data];
+//    }
+//    return _dataArray;
+//}
 
 //-(NSMutableData *)dataLoopArray{
 //    if(!_dataTotalArray){
@@ -142,7 +142,7 @@
     
     //1.2 发送连接的clientSocket
     NSError * error = nil;
-    [clientSocket connectToHost:@"192.168.1.53" onPort:8080 error:&error];
+    [clientSocket connectToHost:@"192.168.1.62" onPort:8080 error:&error];
     
     if(!error){
         
@@ -184,340 +184,205 @@
 
 //通过socket来接收消息(read操作)
 -(void)socket:(GCDAsyncSocket *)clientsock didReadData:(NSData *)data withTag:(long)tag{
-    //这个是json的格式来进行的操作!
+    //这个是json的格 式来进行的操作!
     //才会通过字符串的形式来进行的转换
     //NSString * str = [[NSString alloc]initWithData:data encoding:NSUTF16StringEncoding];
     
     NSUInteger partialLength = data.length;
-    NSLog(@"partialLength = %zd",partialLength);
+    NSLog(@"新来一包了partialLength = %zd",partialLength);
     
     if(data.length == 1000){
         //要求的是每次只拿出一千个数来进行使用,不要进行的是:多拿的情况
-        //接受
         //先要求判断的buffer的缓存里面是否有数据
+        NSMutableData * dataArray = [NSMutableData data];
         if(self.dataBufferArray.length != 0){
-            //先拼接buffer里面的数值!
-            [self.dataArray appendData:self.dataBufferArray];
-            [self.dataArray appendData:data];
+            //判断的是:当前的记录的索引之后的来取值
+            if(self.bufferIndex != 0){
+                Byte * tempbuffer = (Byte *)[self.dataBufferArray bytes];
+                NSUInteger length = self.dataBufferArray.length - self.bufferIndex;
+                
+                //取地址的来进行的拼接
+                dataArray = [NSMutableData dataWithBytes:&tempbuffer[(int)self.bufferIndex] length:length];
+                [dataArray appendData:data];
+                self.bufferIndex += length;
+        
+            }else{
+                //先拼接buffer里面的数值!
+                [dataArray appendData:self.dataBufferArray];
+                [dataArray appendData:data];
+                self.bufferIndex += self.dataBufferArray.length;
+            }
             
         }else{
-            
-            [self.dataArray appendData:data];
+            //最开始的第一次的产生的拼接的data的分支情况!
+            [dataArray appendData:data];
         }
         //NSLog(@"self.dataArray.length = %ld",self.dataArray.length);
         //进行的是数据包的处理和解析查找:
-        [self SeekDataPacket:self.dataArray];
+        [self SeekDataPacket:dataArray];
         
         //NSLog(@"接受来的数据 self.dataArray = %@",self.dataArray);
         //要求的是:总是从最开头的数据来拿
-        NSRange range = NSMakeRange(0, self.dataArray.length);
+        NSRange range = NSMakeRange(0, dataArray.length);
         
-        [self.dataArray resetBytesInRange:range];
+        [dataArray resetBytesInRange:range];
         
         //NSLog(@"接受来的数据 self.dataArray = %@",self.dataArray);
         //要求的是read之后继续的,继续的监听,继续的来进行从buffer中来拼接字节和数据
         [clientsock readDataToLength:1000 withTimeout:-1 tag:0];
-
+        //要求进行的处理是:需要进行添加到一个队列中来进行的先进先出的循环的取值和删除数据!
+        dataArray = nil;
     }
-    //要求进行的处理是:需要进行添加到一个队列中来进行的先进先出的循环的取值和删除数据!
-    self.dataArray = nil;
 }
 
 #pragma mark - 查找,拿出数据包的重要方法
 -(void)SeekDataPacket:(NSData *)data{
+    
     //通过token来进行的seek出来的一个整包:
     //实现的思路是:通过循环遍历整个data来进行的查找包头,直接通过的字节的数值来比较,如果发现是token的相同的值,我们就要求找headerLength和payloadLength还有的是packageType!合理的组成一包来进行传递下去
     //如果缓存buffer不为空的情况,要求拼接缓存
-//    if(self.dataBufferArray.length != 0){
-//        NSLog(@"data = %ld",data.length);
-//        
-//        NSMutableData * allData = [NSMutableData dataWithData:self.dataBufferArray];
-//        #warning (添加警告的内容)注意的是这里的buffer存储的有问题!
-//        NSLog(@"self.dataBuffer.length = %ld",self.dataBufferArray.length);
-//        NSLog(@"alldata = %@",allData);
-//        
-//        [allData appendData:data];
-//        NSLog(@"alldata = %@",allData);
-//        
-//        Byte * tempAllByte = (Byte *)[allData bytes];
-//        NSLog(@"alldata.Length = %ld",allData.length);
-//        
-//        for (int i = 0; i < allData.length; i++) {
-//            //如果i超过data.length - 2 就要求添加到缓存中来进行的等待的是下一包的数据
-//            if (i > allData.length - 2)
-//            {
-//                //取字节存数组
-//                [self.dataBufferArray appendBytes:&tempAllByte[i] length:1];
-//                [self.dataBufferArray appendBytes:&tempAllByte[i +1] length:1];
-//                break;
-//            }
-//            NSLog(@"line245 I ZHI = %d",i);
-//            
-//            //进行的拿出每一个字节,进行的比较测试查找包头
-//            UInt8 tempByte = tempAllByte[i];
-//            UInt8 tempByte1 = tempAllByte[i + 1];
-//            
-//            if((tempByte == 0x50 && tempByte1 == 0x05) || (tempByte == 0xf0  && tempByte1 == 0x0f)){
-//                
-//                NSLog(@"line253 I ZHI = %d",i);
-//                //要求的进行的判断的token不对的情况下的逻辑的判断:
-//                NSMutableData * dataTotalArray = [NSMutableData data];
-//                
-//                //基本上是确定的找到token
-//                //然后的是:通过的是后四个字节来进行的判断的是否是真正的包头的内容信息!
-//                if(i+4 >= allData.length ){
-//                    //要求的是直接的将剩余的所有尾巴放入缓存中
-//                    NSInteger tailLength = allData.length - i;
-//                    //循环的 buffer 的添加
-//                    [self.dataBufferArray appendBytes:&tempAllByte[i] length:tailLength];
-//                    break;
-//                    
-//                }
-//                //可以进行的取出的 包的headerLength 和 payloadLength 的属性
-//                //数据的类型都是byte的类型
-//                self.headerLength = tempAllByte[i +2];
-//                self.payloadLength = tempAllByte[i +3] + (tempAllByte[i +4]<<8);
-//                
-//                
-//                int headerLength = (int) self.headerLength;
-//                int payloadpayLength = tempAllByte[i +3] + (tempAllByte[i +4]<<8);
-//                
-//                NSLog(@"header = %d,payloadLength = %d",headerLength,payloadpayLength);
-//                
-//                self.dataSuccess   = [NSMutableData data];
-//                self.HeadUnavailable = [NSMutableData data];
-//                [self.HeadUnavailable appendData:allData];
-//                self.testBranch = [NSMutableData data];
-//                
-//                //接下来的是从data的字节流的情况:来进行的查找整个包的内容来进行的组包!
-//                //判断的情况是有三种的情况:
-//                if(i + headerLength + payloadpayLength + 4 < allData.length){//一包的数据在这次的情况:
-//                    //截取整个的数据包:
-//                    NSInteger tailLength = headerLength + payloadpayLength + 4;
-//                    
-//                    //                for(int j = 0;j < tailLength;j ++){
-//                    //                    //循环的 buffer 的添加
-//                    //                    [self.dataTotalArray appendBytes:&tempAllByte[i +j] length:1];
-//                    //                }
-//                    
-//                    [dataTotalArray appendBytes:&tempAllByte[i] length:tailLength];
-//                    //test 打印测试拼接出来的数据正确性
-//                    NSLog(@"test-->dataTotalArray=%@",dataTotalArray);
-//                    
-//                    //接下来的话:就是通过这个数据的解析来完成这个判断!
-//                    [self AnalysisWithDataPackage:dataTotalArray];
-//                    
-//                    //通过解析的结果来进行的对这个i的值来处理
-//                    if (self.reallyPackage == 0 ){//代表的是包头的查找的错误!
-//                        
-//                        i++;//Ignore The WrongPackage HeaderToken
-//                        
-//                    }else{
-//                        
-//                        i = i + headerLength + payloadpayLength + 4 - 1;
-//                    }
-//                    
-//                    [self.testBranch appendData: self.dataBufferArray];
-//                    
-//                }else if(i + headerLength + payloadpayLength + 4 == allData.length){//数据整好是一包的情况:
-//                    //截取整个的数据包:完成之后的话就可以返回来进行接收下一包的socket的了!
-//                    NSInteger tailLength = i + headerLength + payloadpayLength + 4;
-//                    
-//                    //                for(int j = 0;j < tailLength;j ++){
-//                    //                    //循环的 buffer 的添加
-//                    //                    [self.dataTotalArray appendBytes:&tempAllByte[i +j] length:1];
-//                    //                }
-//                    [dataTotalArray appendBytes:&tempAllByte[i] length:tailLength];
-//                    
-//                    [self.dataSuccess appendData:allData];
-//                    
-//                    NSLog(@"test+dataTotalArray=%@",dataTotalArray);
-//                    //接下来的话:就是通过这个数据的解析来完成这个判断!
-//                    [self AnalysisWithDataPackage:dataTotalArray];
-//                    //通过解析的结果来进行的对这个i的值来处理
-//                    if (self.reallyPackage == 0 ){//代表的是包头的查找的错误!
-//                        
-//                        i++;//Ignore The WrongPackage HeaderToken
-//                    }
-//                    
-//                    [self.testBranch appendData: self.dataBufferArray];
-//                    i = (int)allData.length - 1;
-//                    
-//                }else{//整体的都是不够一包的情况:全部的进行的缓存!
-//                    
-//                    NSInteger tailLength = allData.length - i;
-//                    //                for(int j = 0;j < tailLength;j ++){
-//                    //                    //循环的 buffer 的添加
-//                    //                    [self.dataBufferArray appendBytes:&tempAllByte[i +j] length:1];
-//                    //                }
-//                    [self.dataBufferArray appendBytes:&tempAllByte[i] length:tailLength];
-//                    
-//                    //测试添加的那个实际的 buffer 的情况!
-//                    self.testBuffer = [NSMutableData data];
-//                    [self.testBuffer appendData:self.dataBufferArray];
-//                    i = (int)allData.length - 1;
-//                }
-//                
-//                dataTotalArray = nil;
-//            }
-//            
-//            //如果的是token是假的话,就逻辑的是自动的过滤掉这部分的操作来进行
-//            if (self.dataBufferArray.length > MAX_PackageLength) {
-//                //进行的是对buffer的整个的前移的情况;要求的是内存的空间的整体的前移:
-//                Byte * tempAllByte1 = (Byte *)[self.dataBufferArray bytes];
-//                NSInteger bufferLength = self.dataBufferArray.length - MAX_PackageLength;
-//                //前移1M 的数据:
-//                self.dataBufferArray = nil;
-//                [self.dataBufferArray appendBytes:&tempAllByte1[ MAX_PackageLength] length:bufferLength];
-//                //buffer 的前移补位完成!
-//                
-//            }
-//            
-//            NSLog(@"line367  I ZHI = %d",i);
-//        }
-//        /**
-//         *  ////////////////////////////// 下面的分支是那个buffer为空的情况,也就是最开始的第一包的数据的情况!//////////////////////
-//         */
-//    }else{
+    Byte * tempAllByte = (Byte *)[data bytes];
     
-        Byte * tempAllByte = (Byte *)[data bytes];
+    for (int i = 0; i < data.length; i++) {
+        //如果i超过data.length - 2 就要求添加到缓存中来进行的等待的是下一包的数据
+        if (i > data.length - 2)
+        {
+            //取字节存数组
+            [self.dataBufferArray appendBytes:&tempAllByte[i] length:1];
+            [self.dataBufferArray appendBytes:&tempAllByte[i +1] length:1];
+            break;
+        }
+        NSLog(@"line381 I ZHI = %d",i);
         
-        for (int i = 0; i < data.length; i++) {
-            //如果i超过data.length - 2 就要求添加到缓存中来进行的等待的是下一包的数据
-            if (i > data.length - 2)
-            {
-                //取字节存数组
-                [self.dataBufferArray appendBytes:&tempAllByte[i] length:1];
-                [self.dataBufferArray appendBytes:&tempAllByte[i +1] length:1];
+        //进行的拿出每一个字节,进行的比较测试查找包头
+        UInt8 tempByte = tempAllByte[i];
+        UInt8 tempByte1 = tempAllByte[i + 1];
+        
+        if((tempByte == 0x50 && tempByte1 == 0x05) || (tempByte == 0xf0  && tempByte1 == 0x0f)){
+            
+            NSLog(@"line391 I ZHI = %d",i);
+            //要求的进行的判断的token不对的情况下的逻辑的判断:
+            NSMutableData * dataTotalArray = [NSMutableData data];
+            
+            //基本上是确定的找到token
+            //然后的是:通过的是后四个字节来进行的判断的是否是真正的包头的内容信息!
+            if(i+4 >= data.length ){
+                //要求的是直接的将剩余的所有尾巴放入缓存中
+                NSInteger tailLength = data.length - i;
+                //循环的 buffer 的添加
+                [self.dataBufferArray appendBytes:&tempAllByte[i] length:tailLength];
                 break;
             }
-            NSLog(@"line381 I ZHI = %d",i);
             
-            //进行的拿出每一个字节,进行的比较测试查找包头
-            UInt8 tempByte = tempAllByte[i];
-            UInt8 tempByte1 = tempAllByte[i + 1];
+            //可以进行的取出的 包的headerLength 和 payloadLength 的属性
+            //数据的类型都是byte的类型
+            self.headerLength = tempAllByte[i +2];
+            self.payloadLength = tempAllByte[i +3] + (tempAllByte[i +4]<<8);
             
-            if((tempByte == 0x50 && tempByte1 == 0x05) || (tempByte == 0xf0  && tempByte1 == 0x0f)){
-                
-                NSLog(@"line391 I ZHI = %d",i);
-                //要求的进行的判断的token不对的情况下的逻辑的判断:
-                NSMutableData * dataTotalArray = [NSMutableData data];
-                
-                //基本上是确定的找到token
-                //然后的是:通过的是后四个字节来进行的判断的是否是真正的包头的内容信息!
-                if(i+4 >= data.length ){
-                    //要求的是直接的将剩余的所有尾巴放入缓存中
-                    NSInteger tailLength = data.length - i;
-                    //循环的 buffer 的添加
-                    [self.dataBufferArray appendBytes:&tempAllByte[i] length:tailLength];
-                    break;
-                    
-                }
-                //可以进行的取出的 包的headerLength 和 payloadLength 的属性
-                //数据的类型都是byte的类型
-                self.headerLength = tempAllByte[i +2];
-                self.payloadLength = tempAllByte[i +3] + (tempAllByte[i +4]<<8);
-                
-                
-                int headerLength = (int) self.headerLength;
-                int payloadpayLength = tempAllByte[i +3] + (tempAllByte[i +4]<<8);
-                
-                NSLog(@"header = %d,payloadLength = %d",headerLength,payloadpayLength);
-                
-                self.dataSuccess   = [NSMutableData data];
-                self.HeadUnavailable = [NSMutableData data];
-                [self.HeadUnavailable appendData:data];
-                self.testBranch = [NSMutableData data];
-                
-                //接下来的是从data的字节流的情况:来进行的查找整个包的内容来进行的组包!
-                //判断的情况是有三种的情况:
-                if(i + headerLength + payloadpayLength + 4 < data.length){//一包的数据在这次的情况:
-                    //截取整个的数据包:
-                    NSInteger tailLength = headerLength + payloadpayLength + 4;
-                    
-                    //                for(int j = 0;j < tailLength;j ++){
-                    //                    //循环的 buffer 的添加
-                    //                    [self.dataTotalArray appendBytes:&tempAllByte[i +j] length:1];
-                    //                }
-                    
-                    [dataTotalArray appendBytes:&tempAllByte[i] length:tailLength];
-                    //test 打印测试拼接出来的数据正确性
-                    NSLog(@"test-->dataTotalArray=%@",dataTotalArray);
-                    
-                    //接下来的话:就是通过这个数据的解析来完成这个判断!
-                    [self AnalysisWithDataPackage:dataTotalArray];
-                    
-                    //通过解析的结果来进行的对这个i的值来处理
-                    if (self.reallyPackage == 0 ){//代表的是包头的查找的错误!
-                        
-                        i++;//Ignore The WrongPackage HeaderToken
-                        
-                    }else{
-                        i = i + headerLength + payloadpayLength + 4 - 1;
-                    }
-                    
-                    [self.testBranch appendData: self.dataBufferArray];
-                    
-                }else if(i + headerLength + payloadpayLength + 4 == data.length){//数据整好是一包的情况:
-                    //截取整个的数据包:完成之后的话就可以返回来进行接收下一包的socket的了!
-                    NSInteger tailLength = i + headerLength + payloadpayLength + 4;
-                    
-                    //                for(int j = 0;j < tailLength;j ++){
-                    //                    //循环的 buffer 的添加
-                    //                    [self.dataTotalArray appendBytes:&tempAllByte[i +j] length:1];
-                    //                }
-                    [dataTotalArray appendBytes:&tempAllByte[i] length:tailLength];
-                    
-                    [self.dataSuccess appendData:data];
-                    
-                    NSLog(@"test+dataTotalArray=%@",dataTotalArray);
-                    //接下来的话:就是通过这个数据的解析来完成这个判断!
-                    [self AnalysisWithDataPackage:dataTotalArray];
-                    //通过解析的结果来进行的对这个i的值来处理
-                    if (self.reallyPackage == 0 ){//代表的是包头的查找的错误!
-                        
-                        i++;//Ignore The WrongPackage HeaderToken
-                    }
-                    
-                    [self.testBranch appendData: self.dataBufferArray];
-                    i = (int)data.length - 1;
-                    
-                }else{//整体的都是不够一包的情况:全部的进行的缓存!
-                    
-                    NSInteger tailLength = data.length - i;
-                    //                for(int j = 0;j < tailLength;j ++){
-                    //                    //循环的 buffer 的添加
-                    //                    [self.dataBufferArray appendBytes:&tempAllByte[i +j] length:1];
-                    //                }
-                    [self.dataBufferArray appendBytes:&tempAllByte[i] length:tailLength];
-                    
-                    //测试添加的那个实际的 buffer 的情况!
-                    self.testBuffer = [NSMutableData data];
-                    [self.testBuffer appendData:self.dataBufferArray];
-                    i = (int)data.length - 1;
-                }
-                
-                dataTotalArray = nil;
+            
+            int headerLength = (int) self.headerLength;
+            int payloadpayLength = tempAllByte[i +3] + (tempAllByte[i +4]<<8);
+            
+            NSLog(@"header = %d,payloadLength = %d",headerLength,payloadpayLength);
+            
+            self.dataSuccess   = [NSMutableData data];
+            self.HeadUnavailable = [NSMutableData data];
+            [self.HeadUnavailable appendData:data];
+            self.testBranch = [NSMutableData data];
+            //新添加的逻辑的判断:
+            if(headerLength + payloadpayLength + 4 > MAX_PackageLength){
+                //直接的判断的是这个包是错误的类型,要求的是舍弃包头的操作
+                break;//重新开始查找包头!
             }
             
-            //如果的是token是假的话,就逻辑的是自动的过滤掉这部分的操作来进行
-            if (self.dataBufferArray.length > MAX_PackageLength) {
-                //进行的是对buffer的整个的前移的情况;要求的是内存的空间的整体的前移:
-                Byte * tempAllByte1 = (Byte *)[self.dataBufferArray bytes];
-                NSInteger bufferLength = self.dataBufferArray.length - MAX_PackageLength;
-                //前移1M 的数据:
-                self.dataBufferArray = nil;
-                [self.dataBufferArray appendBytes:&tempAllByte1[ MAX_PackageLength] length:bufferLength];
-                //buffer 的前移补位完成!
+            //接下来的是从data的字节流的情况:来进行的查找整个包的内容来进行的组包!
+            //判断的情况是有三种的情况:
+            if(i + headerLength + payloadpayLength + 4 < data.length){//一包的数据在这次的情况:
+                //截取整个的数据包:
+                NSInteger tailLength = headerLength + payloadpayLength + 4;
                 
+                //                for(int j = 0;j < tailLength;j ++){
+                //                    //循环的 buffer 的添加
+                //                    [self.dataTotalArray appendBytes:&tempAllByte[i +j] length:1];
+                //                }
+                
+                [dataTotalArray appendBytes:&tempAllByte[i] length:tailLength];
+                //test 打印测试拼接出来的数据正确性
+                NSLog(@"test-->dataTotalArray=%@",dataTotalArray);
+                
+                //接下来的话:就是通过这个数据的解析来完成这个判断!
+                [self AnalysisWithDataPackage:dataTotalArray];
+                
+                //通过解析的结果来进行的对这个i的值来处理
+                if (self.reallyPackage == 0 ){//代表的是包头的查找的错误!
+                    
+                    i++;//Ignore The WrongPackage HeaderToken
+                    
+                }else{
+                    i = i + headerLength + payloadpayLength + 4 - 1;
+                }
+                
+                [self.testBranch appendData: self.dataBufferArray];
+                
+            }else if(i + headerLength + payloadpayLength + 4 == data.length){//数据整好是一包的情况:
+                //截取整个的数据包:完成之后的话就可以返回来进行接收下一包的socket的了!
+                NSInteger tailLength = i + headerLength + payloadpayLength + 4;
+                
+                //                for(int j = 0;j < tailLength;j ++){
+                //                    //循环的 buffer 的添加
+                //                    [self.dataTotalArray appendBytes:&tempAllByte[i +j] length:1];
+                //                }
+                [dataTotalArray appendBytes:&tempAllByte[i] length:tailLength];
+                
+                [self.dataSuccess appendData:data];
+                
+                NSLog(@"test+dataTotalArray=%@",dataTotalArray);
+                //接下来的话:就是通过这个数据的解析来完成这个判断!
+                [self AnalysisWithDataPackage:dataTotalArray];
+                //通过解析的结果来进行的对这个i的值来处理
+                if (self.reallyPackage == 0 ){//代表的是包头的查找的错误!
+                    
+                    i++;//Ignore The WrongPackage HeaderToken
+                }
+                
+                [self.testBranch appendData: self.dataBufferArray];
+                i = (int)data.length ;
+                
+            }else{//整体的都是不够一包的情况:全部的进行的缓存!
+                
+                NSInteger tailLength = data.length - i;
+                //                for(int j = 0;j < tailLength;j ++){
+                //                    //循环的 buffer 的添加
+                //                    [self.dataBufferArray appendBytes:&tempAllByte[i +j] length:1];
+                //                }
+                [self.dataBufferArray appendBytes:&tempAllByte[i] length:tailLength];
+                
+                //测试添加的那个实际的 buffer 的情况!
+                self.testBuffer = [NSMutableData data];
+                [self.testBuffer appendData:self.dataBufferArray];
+                i = (int)data.length ;
             }
             
-            NSLog(@"line502  I ZHI = %d",i);
+            dataTotalArray = nil;
         }
-    
-    //}
-    //不能写在循环里面
-    //清空的缓存!
+        
+        //如果的是token是假的话,就逻辑的是自动的过滤掉这部分的操作来进行
+        //测试的是缓存,溢出的情况!
+        if (self.dataBufferArray.length > 2 * MAX_PackageLength) {
+            //进行的是对buffer的整个的前移的情况;要求的是内存的空间的整体的前移:
+            NSInteger bufferLength = self.dataBufferArray.length - MAX_PackageLength;
+            NSRange range = NSMakeRange(0, bufferLength);
+            //前移1M 的数据:
+            //data 的数据的删除,就是要求的是删除1M的数据
+            [self.dataBufferArray replaceBytesInRange:range withBytes:NULL length:0];
+            //[self.dataBufferArray appendBytes:&tempAllByte1[ MAX_PackageLength] length:bufferLength];
+            //buffer 的前移补位完成!要求的是复位的操作!同样的也需要的是前移1M的数据情况!
+            self.bufferIndex -= MAX_PackageLength;
+            
+        }
+        
+        NSLog(@"line502  I ZHI = %d",i);
+    }
 }
 
 #pragma mark - 分析解包,解析数据的重要方法
@@ -529,12 +394,12 @@
     
     NSInteger length = dataTotalArray.length;
     //判断包的长度情况:要求的是一个包的长度的不能超过2k的理论的计算的点,超过了就是假包的情况!
-    if(length >  MAX_PackageLength){
-        //得到是一个假包!
-        self.reallyPackage = 0;//这个包是为 假的;得到的为假的话..这样就去掉那个包头,i这里有一个重新设置包头的情况!
-        return;
-        
-    }
+//    if(length >  MAX_PackageLength){
+//        //得到是一个假包!
+//        self.reallyPackage = 0;//这个包是为 假的;得到的为假的话..这样就去掉那个包头,i这里有一个重新设置包头的情况!
+//        return;
+//        
+//    }
     
     //取出最后的字节数组的情况
     //这里的话:还需要的是前两个byte转化成 uint_16的情况
