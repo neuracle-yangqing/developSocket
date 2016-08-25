@@ -37,4 +37,10 @@
 
 @property(nonatomic,assign)int TimeStampFromPowerOn;
 
+/**
+ *  缓存的上一个的oldpacketID
+ */
+//@property(nonatomic,assign)UInt8 oldPacketID;
+
+
 @end

@@ -54,6 +54,8 @@
 #import "AcpCommandResponese.h"
 #import "CRC16_CCITT_H.h"
 
+static NSInteger Testcount = 0;
+
 @interface ViewController ()<GCDAsyncSocketDelegate>
 
 @property(nonatomic, strong)GCDAsyncSocket * clientSocket;
@@ -83,6 +85,8 @@
  */
 @property(nonatomic, strong)baseFrame * baseFrame;
 
+@property(nonatomic, strong)AcpAlert * lert;
+
 @end
 
 @implementation ViewController
@@ -103,6 +107,8 @@
 //    }
 //    return _dataTotalArray;
 //}
+
+
 
 -(NSMutableData *)dataBufferArray{
     if(!_dataBufferArray){
@@ -190,6 +196,9 @@
     
     NSUInteger partialLength = data.length;
     NSLog(@"新来一包了partialLength = %zd",partialLength);
+    //通过的 test 的索引来进行的
+    Testcount++;
+    NSLog(@"记录的是当前对应的第几包的数据 %ld",Testcount);
     
     if(data.length == 1000){
         //要求的是每次只拿出一千个数来进行使用,不要进行的是:多拿的情况
@@ -199,14 +208,17 @@
             //判断的是:当前的记录的索引之后的来取值
             if(self.bufferIndex != 0){
                 Byte * tempbuffer = (Byte *)[self.dataBufferArray bytes];
-                NSUInteger length = self.dataBufferArray.length - self.bufferIndex;
+                NSUInteger length = self.dataBufferArray.length - self.bufferIndex;//每次去截那个buffer里面的索引之后的所有的数据!
                 
                 //取地址的来进行的拼接
                 dataArray = [NSMutableData dataWithBytes:&tempbuffer[(int)self.bufferIndex] length:length];
                 [dataArray appendData:data];
                 self.bufferIndex += length;
-        
-            }else{
+                
+                
+                
+                }else{
+                    
                 //先拼接buffer里面的数值!
                 [dataArray appendData:self.dataBufferArray];
                 [dataArray appendData:data];
@@ -360,7 +372,7 @@
                 //测试添加的那个实际的 buffer 的情况!
                 self.testBuffer = [NSMutableData data];
                 [self.testBuffer appendData:self.dataBufferArray];
-                i = (int)data.length ;
+                i = (int)data.length;
             }
             
             dataTotalArray = nil;
@@ -370,7 +382,7 @@
         //测试的是缓存,溢出的情况!
         if (self.dataBufferArray.length > 2 * MAX_PackageLength) {
             //进行的是对buffer的整个的前移的情况;要求的是内存的空间的整体的前移:
-            NSInteger bufferLength = self.dataBufferArray.length - MAX_PackageLength;
+            NSInteger bufferLength =  MAX_PackageLength;
             NSRange range = NSMakeRange(0, bufferLength);
             //前移1M 的数据:
             //data 的数据的删除,就是要求的是删除1M的数据
@@ -596,7 +608,7 @@
                 alert.alertData.DataArray = [NSMutableData dataWithBytes:&tempAllByte[i] length:(int)self.baseFrame.frameHeader.PayloadLength];
                 //每次传过来的是一串的字符数组!
                 //[alert.alertData.DataArray appendBytes:&tempAllByte[i] length:(int)self.baseFrame.frameHeader.PayloadLength];
-                
+                self.lert = alert;
                 break;
             }
             default:
