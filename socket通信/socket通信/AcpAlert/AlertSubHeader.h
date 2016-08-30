@@ -33,9 +33,9 @@
 
 @property(nonatomic,assign)UInt8 PacketID;
 
-@property(nonatomic,assign)int TimeStamp;
+@property(nonatomic,assign)float TimeStamp;
 
-@property(nonatomic,assign)int TimeStampFromPowerOn;
+@property(nonatomic,assign)float TimeStampFromPowerOn;
 
 /**
  *  缓存的上一个的oldpacketID

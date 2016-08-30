@@ -92,24 +92,6 @@ static NSInteger Testcount = 0;
 @implementation ViewController
 
 #pragma mark - 懒加载属性
-//-(NSMutableData *)dataArray{
-//    if(!_dataArray){
-//        
-//        _dataArray = [NSMutableData data];
-//    }
-//    return _dataArray;
-//}
-
-//-(NSMutableData *)dataLoopArray{
-//    if(!_dataTotalArray){
-//        
-//        _dataTotalArray = [NSMutableData data];
-//    }
-//    return _dataTotalArray;
-//}
-
-
-
 -(NSMutableData *)dataBufferArray{
     if(!_dataBufferArray){
         
@@ -118,14 +100,6 @@ static NSInteger Testcount = 0;
     }
     return _dataBufferArray;
 }
-
-// 定义成全局的变量之后的话,不能来进行的remove 的操作!
-//-(NSMutableData *)dataTotalArray{
-//    if (!_dataTotalArray) {
-//        _dataTotalArray = [NSMutableData data];
-//    }
-//    return _dataTotalArray;
-//}
 
 -(baseFrame *)baseFrame{
     
